@@ -7,10 +7,11 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('carritos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->dateTime('creado_en')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')
+                  ->constrained('usuarios')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+            $table->timestamp('creado_en')->useCurrent();
         });
     }
 
@@ -18,6 +19,3 @@ return new class extends Migration {
         Schema::dropIfExists('carritos');
     }
 };
-
-
-?>
