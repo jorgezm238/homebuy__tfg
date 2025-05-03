@@ -1,0 +1,61 @@
+Estructura del proyecto HomeBuy (Laravel + React)
+
+// BACKEND - Laravel
+/homebuy-backend
+--- app/
+| --- Http/
+| --- Controllers/
+| --- CarritoController.php
+| --- AuthController.php
+| --- HouseController.php
+| --- FavoriteController.php
+| --- ContactController.php
+| --- ReserveController.php
+| --- AdminController.php
+--- app/Models/
+| --- User.php
+| --- House.php
+| --- Favorite.php
+| --- Contact.php
+| --- Carrito.php
+| --- CarritoItem.php
+| --- Reserve.php
+--- database/migrations/
+| --- create_users_table.php
+| --- create_houses_table.php
+| --- create_favorites_table.php
+| --- create_carritos_table.php
+| --- create_carrito_items_table.php
+| --- create_contacts_table.php
+| --- create_reserves_table.php
+--- routes/
+| --- api.php
+| --- web.php
+--- public/storage/images
+
+
+
+// FRONTEND - React
+/homebuy-frontend
+--- src/
+| --- components/
+| | --- Navbar.jsx
+| | --- LoginForm.jsx
+| | --- RegisterForm.jsx
+| | --- HouseCard.jsx
+| | --- ContactForm.jsx
+| | --- ReserveForm.jsx
+| | --- CartButton.jsx
+| --- pages/
+| | --- Home.jsx
+| | --- Login.jsx
+| | --- Register.jsx
+| | --- PropertyDetail.jsx
+| | --- Favorites.jsx
+| | --- AdminDashboard.jsx
+| | --- Cart.jsx
+| --- services/
+| | --- api.js
+| | --- cart.js
+| --- App.jsx
+| --- main.jsx
