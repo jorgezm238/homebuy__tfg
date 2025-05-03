@@ -1,11 +1,26 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\WelcomeController;
+
 
 use Illuminate\Support\Facades\Route;
+
+// ... cualquier otra ruta que tengas
+
+// Ruta de inicio
+//Route::get('/', [CasaControlador::class, 'index'])->name('home');
+//Route::view('/{any}', 'app')->where('any','.*');
+// routes/web.php
+
+
+
+// Cualquier ruta va a nuestra SPA React
+Route::view('/{any?}', 'app')->where('any', '.*');
+
+
+
+// (Opcional) Borra o comenta la antigua ruta que apuntaba a Product
+// Route::get('/', [WelcomeController::class, 'show']);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+
 
 Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 Route::get('/cart', [CartController::class, 'show']);
@@ -33,3 +48,4 @@ Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
     Route::get('/', [CartController::class, 'orders']);
     Route::get('/{id_cart}', [CartController::class, 'getOrderById']);
 });
+*/

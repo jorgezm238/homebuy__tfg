@@ -1,0 +1,30 @@
+.house-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform .2s;
+  }
+  .house-card:hover {
+    transform: translateY(-4px);
+  }
+  .house-card__img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  .house-card__info {
+    padding: .75rem;
+  }
+  .house-card__titulo {
+    margin: 0 0 .5rem;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  .house-card__estado {
+    margin: 0;
+    font-size: .9rem;
+    color: #666;
+    text-transform: capitalize;
+  }
+  
