@@ -1,24 +1,18 @@
+// resources/js/components/NavBar.jsx
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import '../../css/navbar.css';
+import { NavLink } from 'react-router-dom';
+import '../../css/navbar.css';  // importa tu CSS
 
-export default function Navbar(){
-  const loc = useLocation().pathname;
-  const esAuth = loc === '/login' || loc === '/register';
-
+export default function NavBar() {
   return (
     <nav className="navbar">
-      <div className="navbar__logo">
-        <Link to="/"><strong>HomeBuy</strong></Link>
-      </div>
-      <div className="navbar__links">
-        <Link to="/">Inicio</Link>
-        {!esAuth && <>
-          <Link to="/">Contacto</Link>
-          <Link to="/">Mi cuenta</Link>
-        </>}
-        {loc === '/login'    && <Link to="/register">Registrarse</Link>}
-        {loc === '/register' && <Link to="/login">Iniciar Sesión</Link>}
+      <div className="navbar-container">
+        <NavLink to="/" className="navbar-logo">HomeBuy</NavLink>
+        <div className="navbar-menu">
+          <NavLink to="/"     className="nav-link" end>Inicio</NavLink>
+          <NavLink to="/contacto" className="nav-link">Contacto</NavLink>
+          <NavLink to="/mi-cuenta" className="nav-link">Mi cuenta</NavLink>
+        </div>
       </div>
     </nav>
   );

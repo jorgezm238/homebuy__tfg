@@ -9,5 +9,7 @@
 </head>
 <body>
   <div id="root"></div>
+  @vite('resources/js/app.jsx')
 </body>
+
 </html>

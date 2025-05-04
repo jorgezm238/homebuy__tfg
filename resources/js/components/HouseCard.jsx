@@ -1,19 +1,23 @@
 import React from 'react';
+// subimos dos niveles desde js/components hasta css/
 import '../../css/housecard.css';
 
-export default function HouseCard({ casa }) {
-  // Ruta de ejemplo a la imagen en storage
-  const imagenUrl = casa.imagen
-    ? `http://localhost:8000/storage/images/${casa.imagen}`
-    : 'https://via.placeholder.com/300x200?text=Sin+imagen';
-
+export default function HouseCard({ house }) {
   return (
-    <div className="house-card">
-      <img className="house-card__img" src={imagenUrl} alt={casa.titulo} />
-      <div className="house-card__info">
-        <h3 className="house-card__titulo">{casa.titulo}</h3>
-        <p className="house-card__estado">{casa.estado}</p>
+    <article className="house-card">
+      <img
+        src={house.imagen} 
+        alt={house.titulo}
+      />
+      <div className="card-body">
+        <h3>{house.titulo}</h3>
+        <p className={`status ${house.estado}`}>{house.estado}</p>
+        <p className="price">{house.precio.toLocaleString()} €</p>
+        <div className="card-actions">
+          <button>Favoritos ❤️</button>
+          <button>Reservar 📅</button>
+        </div>
       </div>
-    </div>
+    </article>
   );
 }

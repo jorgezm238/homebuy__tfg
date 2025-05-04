@@ -1,5 +1,27 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+// Rutas de tu API, autenticación y demás...
+// Route::post(...);
+// Route::get('/api/...');
+
+// Catch-all para servir tu SPA React, **excluyendo** las rutas de Vite y Sanctum
+Route::get('/{any}', function () {
+    return view('app');
+})
+// Solo intercepta rutas que NO empiecen por:
+//    api/      <- tu API
+//    sanctum/  <- csrf-cookie, login, logout
+//    @vite    <- todos los endpoints de HMR de Vite
+//    __vite_ping <- ping interno de Vite
+//    favicon.ico, robots.txt...
+->where('any', '^(?!api\/|sanctum\/|@vite\/|__vite_ping$|favicon\.ico|robots\.txt).*');
+
+
+
+/*<?php
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -48,4 +70,4 @@ Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
     Route::get('/', [CartController::class, 'orders']);
     Route::get('/{id_cart}', [CartController::class, 'getOrderById']);
 });
-*/
+*/ 

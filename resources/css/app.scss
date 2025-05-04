@@ -1,8 +1,25 @@
+// resources/css/app.scss
+
+// …tus imports anteriores…
+
 @import './navbar.css';
+@import './home.css';
+@import './housecard.css';
 @import './auth.css';
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #fafafa;
+}
+/* resources/css/app.scss */
+
+body, #root {
+  margin: 0;
+  padding: 0;
+}
+
+/* Empuja todo el contenido para que empiece justo debajo de la navbar */
+.main-content {
+  padding-top: 80px; /* ajusta si cambias altura de navbar */
 }
