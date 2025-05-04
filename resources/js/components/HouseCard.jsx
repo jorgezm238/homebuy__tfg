@@ -14,8 +14,8 @@ export default function HouseCard({ house }) {
         <p className={`status ${house.estado}`}>{house.estado}</p>
         <p className="price">{house.precio.toLocaleString()} €</p>
         <div className="card-actions">
-          <button>Favoritos ❤️</button>
-          <button>Reservar 📅</button>
+          <button>Favoritos </button>
+          <button>Reservar </button>
         </div>
       </div>
     </article>
