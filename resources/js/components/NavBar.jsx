@@ -1,23 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../services/api'
-import '../../css/navbar.css'
+import '../../css/navbar.css'  // Asegúrate de tener este CSS
 
 export default function NavBar() {
-  const [open, setOpen] = useState(false)
-  const dropdownRef = useRef(null)
   const navigate = useNavigate()
-
-  // Si haces clic fuera del dropdown, lo cerramos
-  useEffect(() => {
-    const onBodyClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener('click', onBodyClick)
-    return () => document.removeEventListener('click', onBodyClick)
-  }, [])
+  const token = localStorage.getItem('token')
 
   const handleLogout = async () => {
     try {
@@ -36,21 +24,25 @@ export default function NavBar() {
         <ul className="navbar-links">
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/contacto">Contacto</Link></li>
-          <li className="navbar-account" ref={dropdownRef}>
-            <button
-              className="account-toggle"
-              onClick={() => setOpen(o => !o)}
-            >
-              Mi cuenta ▾
-            </button>
-            {open && (
-              <div className="account-dropdown">
-                <button className="logout-btn" onClick={handleLogout}>
-                  Cerrar sesión
-                </button>
-              </div>
-            )}
-          </li>
+
+          {token
+            ? (
+              <li className="navbar-account">
+                <span className="account-label">Mi Cuenta ▾</span>
+                <ul className="account-dropdown">
+                  <li>
+                    <Link to="/mi-cuenta">Detalles</Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout}>Cerrar sesión</button>
+                  </li>
+                </ul>
+              </li>
+            )
+            : (
+              <li><Link to="/login">Iniciar Sesión</Link></li>
+            )
+          }
         </ul>
       </div>
     </nav>

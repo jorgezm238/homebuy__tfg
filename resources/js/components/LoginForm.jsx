@@ -3,29 +3,31 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api from '../services/api';
-//import '../css/auth.css'; // tu CSS de estilos comunes
+import '../../css/auth.css'; // tu CSS de estilos comunes
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const nav = useNavigate();
+  const [error, setError]       = useState('');
+  const nav                     = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
 
     try {
-      // 1) CSRF cookie en middleware web (sin /api)
+      // 1) CSRF cookie (ruta fuera de /api)
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
         withCredentials: true
       });
 
-      // 2) login via /api/login
-      const res = await api.post('/login', { email, password });
+      // 2) POST a /api/login
+      const res = await api.post('/api/login', { email, password });
+
+      // guarda token
       localStorage.setItem('token', res.data.token);
 
-      // 3) redirigir
+      // redirige a Home
       nav('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Credenciales inválidas');

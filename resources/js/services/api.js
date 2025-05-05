@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api', // prefijo para tus rutas API
-  withCredentials: true,               // importante para Sanctum
+  baseURL: 'http://localhost:8000',  // ← apunta a la raíz
+  withCredentials: true,
 });
 
 api.interceptors.request.use(config => {

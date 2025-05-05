@@ -1,84 +1,96 @@
+/* navbar general */
 .navbar {
-  position: sticky;
-  top: 0;
+  width: 100%;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
   z-index: 100;
 }
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  height: 60px;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
-
-/* Logo a la izquierda */
+/* Logo */
 .navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: #4B0082;
   text-decoration: none;
-  margin-right: auto;
 }
-
-/* Links */
+/* Links principales */
 .navbar-links {
-  list-style: none;
   display: flex;
-  gap: 20px;
+  list-style: none;
   margin: 0;
   padding: 0;
+}
+.navbar-links li {
+  margin-left: 1rem;
 }
 .navbar-links a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  padding: 0.5rem;
 }
 .navbar-links a:hover {
   color: #4B0082;
 }
 
-/* Mi cuenta */
+/* Dropdown “Mi Cuenta” */
 .navbar-account {
   position: relative;
 }
-.account-toggle {
+.account-label {
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.account-label:hover {
+  color: #4B0082;
+}
+/* Lista interna, oculta por defecto */
+.account-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  list-style: none;
+  margin: 0.25rem 0 0 0;
+  padding: 0.5rem 0;
+  min-width: 160px;
+  z-index: 200;
+}
+.navbar-account:hover .account-dropdown {
+  display: block;
+}
+.account-dropdown li {
+  margin: 0;
+}
+.account-dropdown li a,
+.account-dropdown li button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
   background: none;
   border: none;
   font: inherit;
   color: #333;
-  cursor: pointer;
-  font-weight: 500;
-}
-.account-toggle:hover {
-  color: #4B0082;
-}
-
-/* Dropdown */
-.account-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 4px;
-  margin-top: 5px;
-  min-width: 150px;
-}
-.logout-btn {
-  width: 100%;
-  padding: 10px;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 0.95rem;
-  color: #333;
+  text-decoration: none;
   cursor: pointer;
 }
-.logout-btn:hover {
-  background: #f8f8f8;
-  color: #4B0082;
+.account-dropdown li a:hover,
+.account-dropdown li button:hover {
+  background: #f5f5f5;
 }

@@ -1,0 +1,73 @@
+/* Contenedor centrado y con fondo suave */
+.contacto-page {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Título centrado */
+  .contacto-page h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #4B0082;
+  }
+  
+  /* Mensajes de estado */
+  .contacto-error,
+  .contacto-success {
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .contacto-error {
+    background: #ffe5e5;
+    color: #c00;
+  }
+  .contacto-success {
+    background: #e5ffe5;
+    color: #080;
+  }
+  
+  /* Formulario */
+  .contacto-form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+  
+  .contacto-form input,
+  .contacto-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  
+  .contacto-form textarea {
+    height: 120px;
+  }
+  
+  .contacto-form button {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background: #4B0082;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contacto-form button:hover {
+    background: #3a006a;
+  }
+  
