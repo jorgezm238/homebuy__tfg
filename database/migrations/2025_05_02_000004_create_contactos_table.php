@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,10 +11,18 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('house_id');
             $table->text('mensaje');
+            $table->enum('tipo', ['informacion', 'visita', 'consulta'])
+                  ->default('informacion')
+                  ->after('house_id')
+                  ->comment('Tipo de solicitud: informacion, visita o consulta');
             $table->date('fecha_contacto');
 
-            $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('house_id')->references('id')->on('casas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')
+                  ->references('id')->on('usuarios')
+                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('house_id')
+                  ->references('id')->on('casas')
+                  ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -21,5 +30,3 @@ return new class extends Migration {
         Schema::dropIfExists('contactos');
     }
 };
-
-?>

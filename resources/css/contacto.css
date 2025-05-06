@@ -1,73 +1,130 @@
-/* Contenedor centrado y con fondo suave */
+/* resources/css/contacto.css */
+
+/* 1) Asegurarnos de que padding/border se incluyan en el width */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* —————————————————————————————
+   Contenedor de la página
+——————————————————————————————————— */
 .contacto-page {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: #f7f7f7;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  /* Título centrado */
-  .contacto-page h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    color: #4B0082;
-  }
-  
-  /* Mensajes de estado */
-  .contacto-error,
-  .contacto-success {
-    padding: 0.75rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  .contacto-error {
-    background: #ffe5e5;
-    color: #c00;
-  }
-  .contacto-success {
-    background: #e5ffe5;
-    color: #080;
-  }
-  
-  /* Formulario */
-  .contacto-form label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 500;
-  }
-  
-  .contacto-form input,
-  .contacto-form textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 0.25rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    resize: vertical;
-  }
-  
-  .contacto-form textarea {
-    height: 120px;
-  }
-  
-  .contacto-form button {
-    width: 100%;
-    margin-top: 1.5rem;
-    padding: 0.75rem;
-    background: #4B0082;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .contacto-form button:hover {
-    background: #3a006a;
-  }
-  
+  max-width: 600px;       /* ancho máximo de todo el bloque */
+  margin: 2rem auto;      /* centrado horizontal */
+  padding: 2rem;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* —————————————————————————————
+   Título
+——————————————————————————————————— */
+.contacto-page h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  color: #4B0082;
+}
+
+/* —————————————————————————————
+   Formulario centrado
+——————————————————————————————————— */
+.contacto-form {
+  width: 100%;
+  max-width: 480px;       /* ancho fijo del form */
+  margin: 0 auto;         /* centrar dentro de .contacto-page */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Etiquetas */
+.contacto-form label {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Campos de texto, textarea y select */
+.contacto-form input,
+.contacto-form select,
+.contacto-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+/* Hover / focus */
+.contacto-form input:hover,
+.contacto-form select:hover,
+.contacto-form textarea:hover,
+.contacto-form input:focus,
+.contacto-form select:focus,
+.contacto-form textarea:focus {
+  border-color: #4B0082;
+  outline: none;
+}
+
+/* Altura mínima para el textarea */
+.contacto-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Derecha: flecha en el select */
+.contacto-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='%23777' height='10' viewBox='0 0 10 6' width='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: .75rem;
+}
+
+/* —————————————————————————————
+   Mensajes de estado
+——————————————————————————————————— */
+.contacto-error,
+.contacto-success {
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.contacto-error {
+  background-color: #ffe5e5;
+  color: #c00;
+}
+
+.contacto-success {
+  background-color: #e5ffe5;
+  color: #080;
+}
+
+/* —————————————————————————————
+   Botón de envío
+——————————————————————————————————— */
+.contacto-form button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: #4B0082;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.contacto-form button:hover {
+  background-color: #3a006a;
+}

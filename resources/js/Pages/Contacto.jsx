@@ -1,59 +1,71 @@
-import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import api from '../services/api'     // Ajusta la ruta si tu cliente Axios está en otro sitio
-import '../../css/contacto.css'      // Nuevo CSS para esta página
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import api from '../services/api';
+import '../../css/contacto.css';
 
 export default function Contacto() {
-  // Si no hay token, redirigimos inmediatamente al login
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   if (!token) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
 
-  // Hooks para los campos y estado
-  const [casaId, setCasaId] = useState('')
-  const [mensaje, setMensaje] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+  const [casaId, setCasaId]       = useState('');
+  const [tipo, setTipo]           = useState('informacion');
+  const [mensaje, setMensaje]     = useState('');
+  const [error, setError]         = useState('');
+  const [success, setSuccess]     = useState('');
 
-  // Aquí definimos el handleSubmit
   const handleSubmit = async e => {
-    e.preventDefault()
-    setError('')
-    setSuccess('')
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
     try {
-      // Pedimos CSRF si usas Sanctum
-      await api.get('/sanctum/csrf-cookie')
-      // Enviamos al endpoint de contacto
+      // 1) CSRF (si usas Sanctum en web.php)
+      await api.get('/sanctum/csrf-cookie');
+      // 2) POST a nuestra nueva ruta
       await api.post('/contacto', {
         casa_id: casaId,
-        mensaje: mensaje
-      })
-      setSuccess('¡Mensaje enviado con éxito!')
-      setCasaId('')
-      setMensaje('')
+        tipo,
+        mensaje
+      });
+      setSuccess('¡Solicitud enviada correctamente!');
+      setCasaId('');
+      setTipo('informacion');
+      setMensaje('');
     } catch (err) {
-      setError('Error al enviar el mensaje.')
-      console.error(err)
+      console.error(err);
+      setError(err.response?.data?.mensaje || 'Error al enviar la solicitud.');
     }
-  }
+  };
 
   return (
     <div className="contacto-page">
       <h2>Contacto</h2>
 
-      {error && <div className="contacto-error">{error}</div>}
+      {error   && <div className="contacto-error">{error}</div>}
       {success && <div className="contacto-success">{success}</div>}
 
       <form onSubmit={handleSubmit} className="contacto-form">
         <label>Número de la casa</label>
         <input
-          type="text"
+          type="number"
           value={casaId}
           onChange={e => setCasaId(e.target.value)}
           placeholder="Ej. 123"
           required
         />
+
+        <label>Tipo de solicitud</label>
+        <select
+          value={tipo}
+          onChange={e => setTipo(e.target.value)}
+          required
+        >
+          <option value="informacion">Información</option>
+          <option value="visita">Visita</option>
+          <option value="consulta">Consulta</option>
+        </select>
 
         <label>Mensaje</label>
         <textarea
@@ -63,8 +75,8 @@ export default function Contacto() {
           required
         />
 
-        <button type="submit">Enviar mensaje</button>
+        <button type="submit">Enviar solicitud</button>
       </form>
     </div>
-  )
+  );
 }
