@@ -17,4 +17,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user',      fn(Request $r)=> $r->user());
     Route::post('/contacto', [ContactoController::class, 'store']);
     Route::post('/logout',   [AuthController::class, 'logout']);
+    Route::get('/casas/{id}',     [CasaControlador::class, 'show']);
 });
