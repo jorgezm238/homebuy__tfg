@@ -1,3 +1,4 @@
+// resources/js/pages/Contacto.jsx
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import api from '../services/api';
@@ -9,30 +10,21 @@ export default function Contacto() {
     return <Navigate to="/login" replace />;
   }
 
-  const [casaId, setCasaId]       = useState('');
-  const [tipo, setTipo]           = useState('informacion');
-  const [mensaje, setMensaje]     = useState('');
-  const [error, setError]         = useState('');
-  const [success, setSuccess]     = useState('');
+  const [casaId, setCasaId]   = useState('');
+  const [tipo, setTipo]       = useState('informacion');
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError]     = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
     setSuccess('');
-
     try {
-      // 1) CSRF (si usas Sanctum en web.php)
-      await api.get('/sanctum/csrf-cookie');
-      // 2) POST a nuestra nueva ruta
-      await api.post('/contacto', {
-        casa_id: casaId,
-        tipo,
-        mensaje
-      });
+      await api.get('/sanctum/csrf-cookie'); // sólo si usas cookies en web.php
+      await api.post('/contacto', { casa_id: casaId, tipo, mensaje });
       setSuccess('¡Solicitud enviada correctamente!');
-      setCasaId('');
-      setTipo('informacion');
-      setMensaje('');
+      setCasaId(''); setTipo('informacion'); setMensaje('');
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.mensaje || 'Error al enviar la solicitud.');
@@ -42,13 +34,13 @@ export default function Contacto() {
   return (
     <div className="contacto-page">
       <h2>Contacto</h2>
-
       {error   && <div className="contacto-error">{error}</div>}
       {success && <div className="contacto-success">{success}</div>}
 
       <form onSubmit={handleSubmit} className="contacto-form">
-        <label>Número de la casa</label>
+        <label htmlFor="casa">Número de la casa</label>
         <input
+          id="casa"
           type="number"
           value={casaId}
           onChange={e => setCasaId(e.target.value)}
@@ -56,8 +48,9 @@ export default function Contacto() {
           required
         />
 
-        <label>Tipo de solicitud</label>
+        <label htmlFor="tipo">Tipo de solicitud</label>
         <select
+          id="tipo"
           value={tipo}
           onChange={e => setTipo(e.target.value)}
           required
@@ -67,11 +60,12 @@ export default function Contacto() {
           <option value="consulta">Consulta</option>
         </select>
 
-        <label>Mensaje</label>
+        <label htmlFor="mensaje">Mensaje</label>
         <textarea
+          id="mensaje"
           value={mensaje}
           onChange={e => setMensaje(e.target.value)}
-          placeholder="Escribe aquí tu consulta..."
+          placeholder="Escribe tu mensaje..."
           required
         />
 

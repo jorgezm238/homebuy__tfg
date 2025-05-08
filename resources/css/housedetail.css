@@ -1,0 +1,65 @@
+/* resources/css/housedetail.css */
+.hd-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  .hd-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  @media(min-width: 768px) {
+    .hd-card { flex-direction: row; }
+  }
+  .hd-image {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+  }
+  @media(min-width: 768px) {
+    .hd-image { width: 50%; aspect-ratio: auto; }
+  }
+  .hd-details {
+    padding: 1.5rem;
+    flex: 1;
+  }
+  .hd-details h2 {
+    margin-top: 0;
+  }
+  .hd-desc {
+    margin: 1rem 0;
+    color: #555;
+    line-height: 1.5;
+  }
+  .hd-estado {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .hd-disponible { background: #e6ffed; color: #2c662d; }
+  .hd-reservada   { background: #fff7e6; color: #8a5700; }
+  .hd-vendida     { background: #ffebeb; color: #8a1c1c; }
+  
+  .hd-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .hd-actions button {
+    flex: 1;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .hd-actions button:hover { opacity: .9; }
+  .hd-buy  { background: #007bff; color: #fff; }
+  .hd-cart { background: #ffc107; color: #212529; }
+  

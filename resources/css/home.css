@@ -1,37 +1,15 @@
-/* Contenedor principal */
 .home-container {
+  padding: 2rem;
   max-width: 1200px;
-  margin: 3rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
 }
-
-/* Título con subrayado animado */
 .home-container h1 {
-  font-size: 2.5rem;
   text-align: center;
   color: #4B0082;
-  position: relative;
   margin-bottom: 2rem;
 }
-.home-container h1::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -0.5rem;
-  width: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #8a2be2, #4b0082);
-  border-radius: 2px;
-  transition: width 0.4s ease;
-  transform: translateX(-50%);
-}
-.home-container h1:hover::after {
-  width: 4rem;
-}
-
-/* Grid responsivo */
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap: 1.5rem;
 }

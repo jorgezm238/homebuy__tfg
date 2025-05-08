@@ -9,25 +9,24 @@ export default function Home() {
   useEffect(() => {
     api.get('/casas')
       .then(res => {
-        const raw = Array.isArray(res.data) 
-          ? res.data 
-          : Array.isArray(res.data.data) 
-            ? res.data.data 
-            : [];
-        const conImagenes = raw.map(h => ({
-          ...h,
-          imagen: `/images/${h.imagen}`  // asumiendo que copiaste los JPG a public/images
-        }));
-        setCasas(conImagenes);
+        if (Array.isArray(res.data)) {
+          setCasas(res.data);
+        } else {
+          console.error('Formato inesperado /casas:', res.data);
+        }
       })
-      .catch(err => console.error('Error al cargar /api/casas:', err));
+      .catch(err => {
+        console.error('Error cargando /casas:', err);
+      });
   }, []);
 
   return (
     <div className="home-container">
       <h1>Inmuebles Disponibles</h1>
       <div className="home-grid">
-        {casas.map(h => <HouseCard key={h.id} house={h} />)}
+        {casas.map(c => (
+          <HouseCard key={c.id} house={c} />
+        ))}
       </div>
     </div>
   );

@@ -1,35 +1,34 @@
-// resources/js/components/HouseCard.jsx
 import React from 'react';
-import { FiMail, FiPhone, FiHeart } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import '../../css/housecard.css';
 
 export default function HouseCard({ house }) {
-  // Si algún día tienes varias imágenes, contarías house.images.length
-  const contador = `1/1`;
+  const nav = useNavigate();
+  const estadoColor = {
+    disponible: 'green',
+    reservada:  'orange',
+    vendida:    'red',
+  }[house.estado] || 'black';
 
   return (
-    <div className="house-card">
-      <div className="house-card__image-wrapper">
+    <div className="house-card" onClick={()=>nav(`/propiedad/${house.id}`)}>
+      <div className="hc-image-wrapper">
         <img
-          src={house.imagen}         // <-- ahora apunta a /images/TuFoto.jpg
+          src={house.imagen}
           alt={house.titulo}
-          className="house-card__image"
+          onError={e=> e.currentTarget.src='https://via.placeholder.com/400x300?text=No+Image'}
         />
-        <span className="house-card__count">{contador}</span>
       </div>
-      <div className="house-card__info">
-        <div className="house-card__price">
-          {Number(house.precio).toLocaleString()} €
-        </div>
-        <div className="house-card__title">{house.titulo}</div>
-        <div className="house-card__address">{house.direccion}</div>
-        <div className="house-card__meta">
-          {house.habitaciones} hab · {house.banos} baño{house.banos>1&&'s'} · {house.m2} m² · {house.planta}ª planta
-        </div>
-        <div className="house-card__actions">
-          <button className="btn-contact"><FiMail /> Contactar</button>
-          <button className="btn-call"><FiPhone /> Llamar</button>
-          <button className="btn-fav"><FiHeart /></button>
+      <div className="hc-body">
+        <h3>{house.titulo}</h3>
+        <p className="hc-estado" style={{color:estadoColor}}>
+          {house.estado.charAt(0).toUpperCase()+house.estado.slice(1)}
+        </p>
+        <p className="hc-precio">{Number(house.precio).toLocaleString()} €</p>
+        <p className="hc-direccion">{house.direccion}</p>
+        <div className="hc-actions">
+          <button onClick={e=>e.stopPropagation()}>Contactar</button>
+          <button onClick={e=>e.stopPropagation()}>Llamar</button>
         </div>
       </div>
     </div>

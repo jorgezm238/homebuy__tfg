@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import api from '../services/api';
+// resources/js/components/RutaPrivada.jsx
+import React from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-export default function RutaPrivada({ children, requireAdmin = false }) {
-  const [status, setStatus] = useState('loading'); // loading | ok | denied
+export default function RutaPrivada() {
+  const token = localStorage.getItem('token');
+  const location = useLocation();
 
-  useEffect(() => {
-    api.get('/sanctum/csrf-cookie')      // primero la cookie de Sanctum
-      .then(()=> api.get('/api/user'))   // luego user
-      .then(res => {
-        const user = res.data;
-        if (requireAdmin && user.tipo !== 'admin') {
-          setStatus('denied');
-        } else {
-          setStatus('ok');
-        }
-      })
-      .catch(()=> setStatus('denied'));
-  }, []);
-
-  if (status === 'loading') return null;
-  if (status === 'denied')  return <Navigate to="/login" replace />;
-
-  return children;
+  if (!token) {
+    // guardamos la ruta a la que intentaba entrar
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+  return <Outlet />;
 }

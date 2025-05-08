@@ -7,31 +7,21 @@ import '../../css/micuenta.css';
 export default function MiCuenta() {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    async function fetchUser() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-      try {
-        await api.get('/sanctum/csrf-cookie');
-        const res = await api.get('/api/user');
-        setUsuario(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    if (!token) {
+      setLoading(false);
+      return;
     }
-    fetchUser();
-  }, []);
+    api.get('/user')
+      .then(({ data }) => setUsuario(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [token]);
 
-  if (loading) {
-    return <div className="profile-container"><p>Cargando…</p></div>;
-  }
-  if (!usuario) {
+  if (loading) return <p className="profile-loading">Cargando…</p>;
+  if (!token || !usuario) {
     return <Navigate to="/login" replace />;
   }
 
@@ -40,7 +30,7 @@ export default function MiCuenta() {
       <div className="profile-card">
         <h2>Hola, {usuario.nombre}</h2>
         <p><strong>Email:</strong> {usuario.email}</p>
-        <p><strong>Tipo de cuenta:</strong> {usuario.tipo}</p>
+        <p><strong>Tipo:</strong> {usuario.tipo}</p>
       </div>
     </div>
   );
