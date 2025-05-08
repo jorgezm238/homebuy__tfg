@@ -4,6 +4,10 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: 'http://localhost:8000',  // ← apunta a la raíz
   withCredentials: true,
+    headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }
 });
 
 api.interceptors.request.use(config => {

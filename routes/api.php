@@ -3,7 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactoController;  // ← aquí
-
+use App\Http\Controllers\CasaControlador;
 
 // RUTAS PÚBLICAS
 Route::post('/register', [AuthController::class, 'register']);
@@ -17,6 +17,9 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     // Devuelve todas las casas
     Route::post('/contacto', [ContactoController::class,'store']);
+
+    // Devuelve todas las casas
+    Route::get('/casas', [CasaControlador::class, 'index']);
     // Cerrar sesión
     Route::post('/logout', [AuthController::class, 'logout']);
 });
