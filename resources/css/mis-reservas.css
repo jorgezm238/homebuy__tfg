@@ -1,0 +1,66 @@
+.mis-reservas {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: sans-serif;
+}
+
+.mis-reservas h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.mr-loading,
+.mr-empty {
+  text-align: center;
+  color: #666;
+}
+
+.mr-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mr-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s;
+}
+
+.mr-item:hover {
+  background: #f0f0f0;
+}
+
+.mr-info {
+  display: flex;
+  gap: 1rem;
+}
+
+.mr-id {
+  font-weight: bold;
+}
+
+.mr-house,
+.mr-date {
+  color: #333;
+}
+
+.mr-btn-eliminar {
+  background: #e74c3c;
+  border: none;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mr-btn-eliminar:hover {
+  background: #c0392b;
+}

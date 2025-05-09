@@ -1,0 +1,67 @@
+.mis-compras {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: sans-serif;
+}
+
+.mis-compras h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.mc-loading,
+.mc-empty {
+  text-align: center;
+  color: #666;
+}
+
+.mc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eef9f2;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s;
+}
+
+.mc-item:hover {
+  background: #e0f2e5;
+}
+
+.mc-info {
+  display: flex;
+  gap: 1rem;
+}
+
+.mc-id {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.mc-house,
+.mc-date {
+  color: #34495e;
+}
+
+.mc-btn-eliminar {
+  background: #d35400;
+  border: none;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mc-btn-eliminar:hover {
+  background: #b34700;
+}

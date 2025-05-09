@@ -34,6 +34,10 @@ export default function NavBar() {
                     <Link to="/mi-cuenta">Detalles</Link>
                   </li>
                   <li>
+                    <Link to="/mis-transacciones" >  Transacciones</Link>
+                  </li>
+
+                  <li>
                     <button onClick={handleLogout}>Cerrar sesión</button>
                   </li>
                 </ul>

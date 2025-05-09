@@ -10,6 +10,9 @@ import Contacto     from './Pages/Contacto';
 import MiCuenta     from './Pages/MiCuenta';
 import HouseDetail  from './Pages/HouseDetail';
 import RutaPrivada  from './components/RutaPrivada';
+import MisReservas from './Pages/MisReservas';
+import MisCompras from './Pages/MisCompras';
+import MisTransacciones from './Pages/MisTransacciones';
 
 import '../css/app.scss';
 import '../css/navbar.css';
@@ -19,6 +22,9 @@ import '../css/contacto.css';
 import '../css/micuenta.css';
 import '../css/housecard.css';
 import '../css/housedetail.css';
+import '../css/mis-reservas.css';
+import '../css/mis-compras.css';
+import '../css/mis-transacciones.css';
 
 function App() {
   return (
@@ -36,6 +42,11 @@ function App() {
           <Route path="/contacto"        element={<Contacto />} />
           <Route path="/mi-cuenta"       element={<MiCuenta />} />
           <Route path="/propiedad/:id" element={<HouseDetail />} />
+          <Route path="/mis-reservas" element={<MisReservas />} />
+          <Route path="/mis-compras" element={<MisCompras />} />
+          <Route path="/mis-transacciones" element={<MisTransacciones />} />
+
+
         </Route>
 
         {/* Catch-all */}

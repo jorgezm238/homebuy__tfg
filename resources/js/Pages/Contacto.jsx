@@ -16,20 +16,19 @@ export default function Contacto() {
   const [error, setError]     = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    try {
-      await api.get('/sanctum/csrf-cookie'); // sólo si usas cookies en web.php
-      await api.post('/contacto', { casa_id: casaId, tipo, mensaje });
-      setSuccess('¡Solicitud enviada correctamente!');
-      setCasaId(''); setTipo('informacion'); setMensaje('');
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.mensaje || 'Error al enviar la solicitud.');
-    }
-  };
+const handleSubmit = async e => {
+  e.preventDefault();
+  setError(''); setSuccess('');
+  try {
+    await api.post('/contacto', { casa_id: casaId, tipo, mensaje });
+    setSuccess('¡Solicitud enviada correctamente!');
+    setCasaId(''); setTipo('informacion'); setMensaje('');
+  } catch (err) {
+    console.error(err);
+    setError(err.response?.data?.mensaje || 'Error al enviar la solicitud.');
+  }
+};
+
 
   return (
     <div className="contacto-page">
@@ -38,7 +37,7 @@ export default function Contacto() {
       {success && <div className="contacto-success">{success}</div>}
 
       <form onSubmit={handleSubmit} className="contacto-form">
-        <label htmlFor="casa">Número de la casa</label>
+        <label htmlFor="casa">Número del inmueble</label>
         <input
           id="casa"
           type="number"
