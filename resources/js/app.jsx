@@ -7,12 +7,15 @@ import Home         from './Pages/Home';
 import LoginForm    from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Contacto     from './Pages/Contacto';
-import MiCuenta     from './Pages/MiCuenta';
 import HouseDetail  from './Pages/HouseDetail';
 import RutaPrivada  from './components/RutaPrivada';
 import MisReservas from './Pages/MisReservas';
 import MisCompras from './Pages/MisCompras';
 import MisTransacciones from './Pages/MisTransacciones';
+import MiCuenta        from './Pages/MiCuenta';
+import EditarPerfil    from './Pages/EditarPerfil';
+import CambiarPassword from './Pages/CambiarPassword';
+import Carrito        from './Pages/Carrito';
 
 import '../css/app.scss';
 import '../css/navbar.css';
@@ -25,6 +28,9 @@ import '../css/housedetail.css';
 import '../css/mis-reservas.css';
 import '../css/mis-compras.css';
 import '../css/mis-transacciones.css';
+import '../css/editar-perfil.css';
+import '../css/cambiar-password.css';
+import '../css/carrito.css';
 
 function App() {
   return (
@@ -45,6 +51,9 @@ function App() {
           <Route path="/mis-reservas" element={<MisReservas />} />
           <Route path="/mis-compras" element={<MisCompras />} />
           <Route path="/mis-transacciones" element={<MisTransacciones />} />
+          <Route path="/editar-perfil"       element={<EditarPerfil />} />
+          <Route path="/cambiar-password"    element={<CambiarPassword />} />
+          <Route path="/carrito-detalle" element={<Carrito />} />
 
 
         </Route>

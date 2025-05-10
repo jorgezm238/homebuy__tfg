@@ -1,96 +1,204 @@
-.house-detail {
-    max-width: 1000px;
-    margin: 3rem auto;
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 2rem;
-    align-items: start;
+/* resources/css/housedetail.css */
+
+/* ========================================
+   Contenedor principal: Slider + Detalle
+   ======================================== */
+.house-detail-slider {
+  max-width: 1200px;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ========================================
+   Loading placeholder
+   ======================================== */
+.hd-loading {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #555;
+}
+
+/* ========================================
+   Slider: contenedor
+   ======================================== */
+.slider-container {
+  position: relative;
+  width: 100%;
+  /* eliminamos overflow:hidden para que ajuste altura automáticamente */
+  background: #000;
+  border-radius: 8px;
+}
+
+/* Cada imagen del slider */
+.slider-container .slide {
+  display: none;           /* ocultas por defecto */
+  width: 100%;
+  height: auto;            /* altura automática */
+  object-fit: contain;     /* toda la imagen cabe en el contenedor */
+  transition: opacity 0.5s ease;
+  position: static;        /* ocupa espacio normal */
+}
+
+/* Imagen activa */
+.slider-container .slide.active {
+  display: block;
+  opacity: 1;
+}
+
+/* ========================================
+   Flechas de navegación
+   ======================================== */
+.slider-container .nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.slider-container .prev {
+  left: 1rem;
+}
+
+.slider-container .next {
+  right: 1rem;
+}
+
+/* ========================================
+   Puntos de paginación
+   ======================================== */
+.slider-container .dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.slider-container .dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.slider-container .dot.active {
+  background: #fff;
+}
+
+/* ========================================
+   Sección de información de la casa
+   ======================================== */
+.hd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hd-info h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #264653;
+}
+
+.hd-info p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.hd-estado {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.hd-disponible { background: #e6f4ea; color: #2e7d32; }
+.hd-reservada  { background: #fff4e5; color: #d5890c; }
+.hd-vendida    { background: #fdecea; color: #b00020; }
+
+.hd-desc {
+  line-height: 1.5;
+  color: #555;
+}
+
+/* ========================================
+   Botones de acción
+   ======================================== */
+.hd-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.hd-btn {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hd-btn-primary {
+  background-color: #2a9d8f;
+  color: #fff;
+}
+.hd-btn-primary:hover {
+  background-color: #20776b;
+}
+
+.hd-btn-secondary {
+  background-color: #e76f51;
+  color: #fff;
+}
+.hd-btn-secondary:hover {
+  background-color: #cf5b3f;
+}
+
+/* ========================================
+   Responsive adjustments
+   ======================================== */
+@media (max-width: 1024px) {
+  .house-detail-slider {
+    grid-template-columns: 80px 1fr;
   }
-  
-  .hd-img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    object-fit: cover;
-  }
-  
   .hd-info {
-    font-family: 'Inter', sans-serif;
-    color: #333;
+    grid-column: 1 / -1;
   }
-  
-  .hd-info h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #4B0082;
-  }
-  
-  .hd-tag {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-weight: 600;
-    text-transform: capitalize;
-  }
-  .hd-disponible { background:#e6ffed; color:#0a8c2a; }
-  .hd-reservada  { background:#fff7e6; color:#c66a00; }
-  .hd-vendida    { background:#ffe6e6; color:#c00; }
-  
-  .hd-info p {
-    margin: 0.5rem 0;
-    line-height: 1.4;
-  }
-  
-  .hd-desc {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: #fafafa;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-  }
-  
-  .hd-actions {
-    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .house-detail-slider {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .hd-actions button {
-    flex: 1;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+  .slider-container {
+    width: 100%;
   }
-  
-  .hd-actions button:first-child {
-    background: #007bff;
-    color: #fff;
+  .slider-container .slide {
+    /* ajustamos altura para móvil */
+    max-height: 300px;
   }
-  .hd-actions button:first-child:hover {
-    background: #0069d9;
+  .hd-info {
+    width: 100%;
+    padding: 0 1rem;
   }
-  
-  .hd-actions button:last-child {
-    background: #28a745;
-    color: #fff;
-  }
-  .hd-actions button:last-child:hover {
-    background: #218838;
-  }
-  
-  .hd-loading,
-  .hd-error {
-    text-align: center;
-    margin: 4rem 0;
-    font-size: 1.25rem;
-    color: #888;
-  }
-  .hd-error {
-    color: #c00;
-  }
-  
+}

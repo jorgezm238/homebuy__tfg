@@ -30,4 +30,9 @@ class Casa extends Model
     {
         return $this->belongsTo(Usuario::class, 'agente_id');
     }
+    
+    public function images()
+{
+    return $this->hasMany(CasaImagen::class, 'casa_id');
+}
 }

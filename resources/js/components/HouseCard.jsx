@@ -1,3 +1,4 @@
+// resources/js/pages/HouseCard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -6,6 +7,8 @@ import '../../css/housecard.css';
 export default function HouseCard({ house, onUpdate }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isFavorito, setIsFavorito] = useState(house.isFavorito ?? false);
+  const [inCart, setInCart]         = useState(house.inCart    ?? false);
 
   const handleClick = () => {
     navigate(`/propiedad/${house.id}`);
@@ -37,11 +40,10 @@ export default function HouseCard({ house, onUpdate }) {
         fianza
       });
       window.alert('✅ Reserva solicitada correctamente.');
-      onUpdate?.(data.casa); // avisar al padre para refrescar la lista o actualizar este house
+      onUpdate?.(data.casa);
     } catch (err) {
-      console.error('API error response:', err.response?.data);
+      console.error('Error reserva:', err.response?.data);
       const msg = err.response?.data?.message
-        || (err.response?.data?.errors && Object.values(err.response.data.errors).flat().join('\n'))
         || 'Error al enviar la reserva.';
       window.alert(msg);
     } finally {
@@ -49,24 +51,39 @@ export default function HouseCard({ house, onUpdate }) {
     }
   };
 
-  const handleComprar = async e => {
+  const handleFavorito = async e => {
     e.stopPropagation();
-    if (!window.confirm('¿Confirmas tu compra definitiva de esta casa?')) return;
-
+    if (isFavorito) return;
     setLoading(true);
     try {
-      const { data } = await api.post('/compras', { house_id: house.id });
-      window.alert('✅ Compra registrada correctamente.');
-      onUpdate?.(data.casa);
+      await api.post('/favoritos', { house_id: house.id });
+      setIsFavorito(true);
+      window.alert('⭐ Casa añadida a favoritos.');
     } catch (err) {
-      console.error('API error response:', err.response?.data);
-      const msg = err.response?.data?.message || 'Error al procesar la compra.';
-      window.alert(msg);
+      console.error('Error favoritos:', err.response?.data);
+      window.alert(err.response?.data?.message || 'No se pudo añadir a favoritos.');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleAddToCart = async e => {
+    e.stopPropagation();
+    if (inCart) return;
+    setLoading(true);
+    try {
+      await api.post('/carrito', { house_id: house.id });
+      setInCart(true);
+      window.alert('🛒 Casa añadida al carrito.');
+    } catch (err) {
+      console.error('Error carrito:', err.response?.data);
+      window.alert(err.response?.data?.message || 'No se pudo añadir al carrito.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Color según estado
   const estadoColor = {
     disponible: 'green',
     reservada:  'orange',
@@ -74,7 +91,11 @@ export default function HouseCard({ house, onUpdate }) {
   }[house.estado] || 'black';
 
   return (
-    <div className="house-card" onClick={handleClick} style={{ opacity: loading ? 0.6 : 1 }}>
+    <div
+      className="house-card"
+      onClick={handleClick}
+      style={{ opacity: loading ? 0.6 : 1 }}
+    >
       <div className="hc-image-wrapper">
         <img
           src={house.imagen}
@@ -93,14 +114,24 @@ export default function HouseCard({ house, onUpdate }) {
           Número del Inmueble → <strong>{house.id}</strong>
         </p>
         <div className="hc-actions">
-          <button onClick={handleReservar} disabled={loading || house.estado !== 'disponible'}>
-            Reservar
+          <button
+            onClick={handleReservar}
+            disabled={loading || house.estado !== 'disponible'}
+          >
+            📅 Reservar
           </button>
-          <button onClick={handleComprar} disabled={loading || house.estado !== 'reservada'}>
-            Comprar
+          <button
+            onClick={handleFavorito}
+            disabled={loading || isFavorito}
+          >
+            {isFavorito ? '❤️ Favorito' : '❤️ Añadir a favoritos'}
           </button>
-          <button onClick={e => e.stopPropagation()} disabled>
-            Añadir al carrito
+          <button
+            onClick={handleAddToCart}
+            disabled={loading || inCart || house.estado !== 'disponible'}
+            title={house.estado !== 'disponible' ? 'Solo casas disponibles' : undefined}
+          >
+            🛒 {inCart ? 'En el carrito' : 'Añadir al carrito'}
           </button>
         </div>
       </div>

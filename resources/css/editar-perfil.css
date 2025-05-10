@@ -1,0 +1,31 @@
+.editar-perfil-page {
+  max-width: 500px;
+  margin: 2rem auto;
+  font-family: sans-serif;
+}
+.ep-form {
+  display: flex;
+  flex-direction: column;
+}
+.ep-form label {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+.ep-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+}
+.ep-form button {
+  margin-top: 1.5rem;
+  padding: 0.6rem;
+  border: none;
+  background: #2980b9;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.ep-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,3 +1,5 @@
+/* resources/css/navbar.css */
+
 /* navbar general */
 .navbar {
   width: 100%;
@@ -7,14 +9,17 @@
   top: 0;
   z-index: 100;
 }
+
+/* Contenedor principal: centrado vertical */
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.75rem 1rem;
   display: flex;
-  align-items: center;
+  align-items: center;    /* ← centra logo, enlaces y botones */
   justify-content: space-between;
 }
+
 /* Logo */
 .navbar-logo {
   font-size: 1.5rem;
@@ -22,39 +27,58 @@
   color: #4B0082;
   text-decoration: none;
 }
+
 /* Links principales */
 .navbar-links {
   display: flex;
+  align-items: center;    /* ← centra cada <li> */
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 .navbar-links li {
   margin-left: 1rem;
 }
+
+/* Ajuste de padding solo horizontal, centrar texto */
 .navbar-links a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  padding: 0.5rem;
+  padding: 0 0.75rem;     /* 0 vertical, 0.75rem horizontal */
+  display: flex;
+  align-items: center;    /* centra el texto dentro del enlace */
+  line-height: 1;
 }
+
 .navbar-links a:hover {
   color: #4B0082;
 }
 
-/* Dropdown “Mi Cuenta” */
+/* ------------------------------------ */
+/* Dropdown “Mi Cuenta” (toggle on click) */
+
 .navbar-account {
   position: relative;
 }
+
 .account-label {
+  background: none;
+  border: none;
   cursor: pointer;
   color: #333;
   font-weight: 500;
-  padding: 0.5rem;
+  padding: 0 0.75rem;     /* 0 vertical */
+  display: flex;
+  align-items: center;    /* centra texto */
+  line-height: 1;
 }
+
 .account-label:hover {
   color: #4B0082;
 }
+
 /* Lista interna, oculta por defecto */
 .account-dropdown {
   display: none;
@@ -66,17 +90,21 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 4px;
   list-style: none;
-  margin: 0.25rem 0 0 0;
+  margin: 0.25rem 0 0;
   padding: 0.5rem 0;
   min-width: 160px;
   z-index: 200;
 }
-.navbar-account:hover .account-dropdown {
+
+/* Visible si se añade la clase .open por JS */
+.account-dropdown.open {
   display: block;
 }
+
 .account-dropdown li {
   margin: 0;
 }
+
 .account-dropdown li a,
 .account-dropdown li button {
   display: block;
@@ -90,7 +118,124 @@
   text-decoration: none;
   cursor: pointer;
 }
+
 .account-dropdown li a:hover,
 .account-dropdown li button:hover {
   background: #f5f5f5;
+}
+
+/* ------------------------------------ */
+/* Carrito en el Nav */
+
+.navbar-cart {
+  position: relative;
+  margin-left: 1rem;
+}
+
+/* Botón carrito: solo padding horizontal, centrado */
+.cart-button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.2rem;
+  position: relative;
+  cursor: pointer;
+  padding: 0 0.75rem;     /* 0 vertical */
+  display: flex;
+  align-items: center;    /* centra el icono */
+  line-height: 1;
+}
+
+.cart-icon {
+  font-size: 1.3rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0 6px;
+  font-size: 0.75rem;
+}
+
+.cart-dropdown {
+  position: absolute;
+  right: 0;
+  top: 2.6rem;
+  width: 260px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 0.8rem;
+  z-index: 150;
+}
+
+.cart-dropdown h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3rem;
+}
+
+.cart-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cart-dropdown li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.cd-title {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #333;
+  margin-right: 0.5rem;
+}
+
+.cd-qty {
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.cd-remove {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  padding: 0.8rem 0;
+}
+
+.cd-checkout {
+  display: block;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.5rem 0;
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cd-checkout:hover {
+  background: #219150;
 }

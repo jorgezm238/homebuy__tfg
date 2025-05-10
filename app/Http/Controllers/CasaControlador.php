@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Casa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CasaControlador extends Controller
 {
-    // Listado ya lo tienes; sólo añado el método show:
+    /**
+     * GET /api/casas
+     * Devuelve el listado de casas con su imagen principal.
+     */
     public function index()
     {
         $casas = Casa::all()->map(function($c) {
@@ -21,16 +24,28 @@ class CasaControlador extends Controller
                 'imagen'      => asset("storage/images/{$c->imagen}"),
             ];
         });
-        return response()->json($casas);
+
+        return response()->json($casas, 200);
     }
 
-    // Nuevo: detalle de una sola casa
+    /**
+     * GET /api/casas/{id}
+     * Devuelve una casa con TODAS sus imágenes.
+     */
     public function show($id)
     {
-        $c = Casa::find($id);
-        if (!$c) {
-            return response()->json(['mensaje'=>'Propiedad no encontrada.'], 404);
+        // Cargamos la casa junto con la relación images
+        $c = Casa::with('images')->find($id);
+
+        if (! $c) {
+            return response()->json(['mensaje' => 'Propiedad no encontrada.'], 404);
         }
+
+        // Convertimos cada ruta a URL absoluta
+        $imagenes = $c->images->map(function($img) {
+            return asset("storage/images/{$img->ruta}");
+        });
+
         return response()->json([
             'id'          => $c->id,
             'titulo'      => $c->titulo,
@@ -39,6 +54,7 @@ class CasaControlador extends Controller
             'direccion'   => $c->direccion,
             'estado'      => $c->estado,
             'imagen'      => asset("storage/images/{$c->imagen}"),
-        ]);
+            'images'      => $imagenes,
+        ], 200);
     }
 }
