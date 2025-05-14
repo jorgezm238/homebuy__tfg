@@ -5,15 +5,36 @@ import api from '../services/api';
 import '../../css/navbar.css';
 
 export default function NavBar() {
-  const navigate    = useNavigate();
-  const token       = localStorage.getItem('token');
+  const navigate  = useNavigate();
+  const token     = localStorage.getItem('token');
+
+  // Datos de usuario y rol
+  const [user, setUser]       = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Dropdowns y carrito
   const [showCart, setShowCart]       = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [carrito, setCarrito]         = useState(null);
+
   const cartRef    = useRef();
   const accountRef = useRef();
 
-  // Carga inicial del carrito
+  // 1) Carga datos de usuario
+  useEffect(() => {
+    if (!token) return;
+    api.get('/user')
+      .then(({ data }) => {
+        setUser(data);
+        setIsAdmin(data.tipo === 'admin');
+      })
+      .catch(() => {
+        setUser(null);
+        setIsAdmin(false);
+      });
+  }, [token]);
+
+  // 2) Carga inicial del carrito
   useEffect(() => {
     if (!token) return;
     api.get('/carrito')
@@ -21,7 +42,7 @@ export default function NavBar() {
       .catch(() => {});
   }, [token]);
 
-  // Recarga el carrito cada vez que se abre el dropdown
+  // 3) Refrescar carrito al abrir el dropdown
   useEffect(() => {
     if (showCart && token) {
       api.get('/carrito')
@@ -30,7 +51,7 @@ export default function NavBar() {
     }
   }, [showCart, token]);
 
-  // Cerrar dropdowns al clickar fuera
+  // 4) Cerrar dropdowns al clickar fuera
   useEffect(() => {
     const handler = e => {
       if (cartRef.current && !cartRef.current.contains(e.target)) {
@@ -44,12 +65,14 @@ export default function NavBar() {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  // Logout
   const handleLogout = async () => {
     try { await api.post('/logout'); } catch {}
     localStorage.removeItem('token');
     navigate('/login');
   };
 
+  // Eliminar item del carrito
   const handleRemoveItem = async id => {
     try {
       await api.delete(`/carrito/${id}`);
@@ -58,7 +81,7 @@ export default function NavBar() {
         items: c.items.filter(i => i.id !== id)
       }));
     } catch {
-      alert('No se pudo eliminar el item.');
+      alert('No se pudo eliminar el elemento.');
     }
   };
 
@@ -71,6 +94,10 @@ export default function NavBar() {
         <ul className="navbar-links">
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/contacto">Contacto</Link></li>
+
+          {token && isAdmin && (
+            <li><Link to="/gestion-stock">Gestión de stock</Link></li>
+          )}
 
           {token ? (
             <>
@@ -102,37 +129,37 @@ export default function NavBar() {
                   }}
                 >
                   <span className="cart-icon">🛒</span>
-                  {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+                  {totalItems > 0 && (
+                    <span className="cart-badge">{totalItems}</span>
+                  )}
                 </button>
-                {showCart && (
-                  <div className="cart-dropdown">
-                    <h4>Tu Carrito</h4>
-                    {carrito?.items.length ? (
-                      <ul>
-                        {carrito.items.map(item => (
-                          <li key={item.id}>
-                            <span className="cd-title">
-                              {item.casa.titulo || `Casa #${item.casa_id}`}
-                            </span>
-                            <span className="cd-qty">x{item.cantidad}</span>
-                            <button
-                              className="cd-remove"
-                              onClick={() => handleRemoveItem(item.id)}
-                            >✕</button>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="empty">Tu carrito está vacío.</p>
-                    )}
-                    <button
-                      className="cd-checkout"
-                      onClick={() => navigate('/carrito-detalle')}
-                    >
-                      Ver Carrito
-                    </button>
-                  </div>
-                )}
+                <div className={`cart-dropdown${showCart ? ' open' : ''}`}>
+                  <h4>Tu Carrito</h4>
+                  {carrito?.items.length ? (
+                    <ul>
+                      {carrito.items.map(item => (
+                        <li key={item.id}>
+                          <span className="cd-title">
+                            {item.casa.titulo || `Casa #${item.casa_id}`}
+                          </span>
+                          <span className="cd-qty">x{item.cantidad}</span>
+                          <button
+                            className="cd-remove"
+                            onClick={() => handleRemoveItem(item.id)}
+                          >✕</button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="empty">Tu carrito está vacío.</p>
+                  )}
+                  <button
+                    className="cd-checkout"
+                    onClick={() => navigate('/carrito-detalle')}
+                  >
+                    Ver Carrito
+                  </button>
+                </div>
               </li>
             </>
           ) : (

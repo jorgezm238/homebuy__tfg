@@ -1,64 +1,85 @@
 /* resources/css/navbar.css */
 
-/* navbar general */
-.navbar {
-  width: 100%;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/*---------------------------------------------
+  Variables de tema (Dark Mode)
+---------------------------------------------*/
+:root {
+  --navbar-bg:        #191919;
+  --navbar-text:      #E0E0E0;
+  --navbar-hover:     #FFFFFF;
+  --navbar-border:    #333333;
+  --badge-bg:         #FF4D4F;
+  --badge-text:       #FFFFFF;
+  --font-family-base: 'Helvetica Neue', Arial, sans-serif;
+  --transition:       0.2s ease-in-out;
 }
 
-/* Contenedor principal: centrado vertical */
+/*---------------------------------------------
+  Navbar principal
+---------------------------------------------*/
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--navbar-bg);
+  box-shadow: none;
+  z-index: 100;
+  font-family: var(--font-family-base);
+}
+
+/* Contenedor centrado */
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.75rem 1rem;
+  height: 60px;
+  padding: 0 2rem;
   display: flex;
-  align-items: center;    /* ← centra logo, enlaces y botones */
+  align-items: center;
   justify-content: space-between;
 }
 
-/* Logo */
+/*---------------------------------------------
+  Logo
+---------------------------------------------*/
 .navbar-logo {
-  font-size: 1.5rem;
+  color: var(--navbar-text);
+  font-size: 1.75rem;
   font-weight: bold;
-  color: #4B0082;
   text-decoration: none;
+  transition: color var(--transition);
+}
+.navbar-logo:hover {
+  color: var(--navbar-hover);
 }
 
-/* Links principales */
+/*---------------------------------------------
+  Links principales
+---------------------------------------------*/
 .navbar-links {
   display: flex;
-  align-items: center;    /* ← centra cada <li> */
+  align-items: center;
+  gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.navbar-links li {
-  margin-left: 1rem;
-}
-
-/* Ajuste de padding solo horizontal, centrar texto */
 .navbar-links a {
+  color: var(--navbar-text);
   text-decoration: none;
-  color: #333;
+  font-size: 0.9rem;
   font-weight: 500;
-  padding: 0 0.75rem;     /* 0 vertical, 0.75rem horizontal */
-  display: flex;
-  align-items: center;    /* centra el texto dentro del enlace */
-  line-height: 1;
+  text-transform: uppercase;
+  transition: color var(--transition);
 }
 
 .navbar-links a:hover {
-  color: #4B0082;
+  color: var(--navbar-hover);
 }
 
-/* ------------------------------------ */
-/* Dropdown “Mi Cuenta” (toggle on click) */
-
+/*---------------------------------------------
+  Dropdown “Mi Cuenta”
+---------------------------------------------*/
 .navbar-account {
   position: relative;
 }
@@ -66,120 +87,126 @@
 .account-label {
   background: none;
   border: none;
-  cursor: pointer;
-  color: #333;
+  color: var(--navbar-text);
+  font-size: 0.9rem;
   font-weight: 500;
-  padding: 0 0.75rem;     /* 0 vertical */
-  display: flex;
-  align-items: center;    /* centra texto */
-  line-height: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color var(--transition);
 }
 
 .account-label:hover {
-  color: #4B0082;
+  color: var(--navbar-hover);
 }
 
-/* Lista interna, oculta por defecto */
 .account-dropdown {
-  display: none;
   position: absolute;
-  right: 0;
   top: 100%;
-  background: #fff;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  right: 0;
+  background: var(--navbar-bg);
+  border: 1px solid var(--navbar-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   border-radius: 4px;
-  list-style: none;
-  margin: 0.25rem 0 0;
-  padding: 0.5rem 0;
-  min-width: 160px;
-  z-index: 200;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--transition), transform var(--transition);
 }
 
-/* Visible si se añade la clase .open por JS */
 .account-dropdown.open {
-  display: block;
-}
-
-.account-dropdown li {
-  margin: 0;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .account-dropdown li a,
 .account-dropdown li button {
   display: block;
   width: 100%;
-  padding: 0.5rem 1rem;
-  text-align: left;
+  padding: 0.75rem 1rem;
+  color: var(--navbar-text);
   background: none;
   border: none;
-  font: inherit;
-  color: #333;
-  text-decoration: none;
-  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+  transition: background var(--transition);
 }
 
 .account-dropdown li a:hover,
 .account-dropdown li button:hover {
-  background: #f5f5f5;
+  background: var(--navbar-border);
 }
 
-/* ------------------------------------ */
-/* Carrito en el Nav */
-
+/*---------------------------------------------
+  Carrito en el Nav
+---------------------------------------------*/
 .navbar-cart {
   position: relative;
   margin-left: 1rem;
 }
 
-/* Botón carrito: solo padding horizontal, centrado */
+/* Botón carrito */
 .cart-button {
   background: none;
   border: none;
-  color: #333;
-  font-size: 1.2rem;
-  position: relative;
-  cursor: pointer;
-  padding: 0 0.75rem;     /* 0 vertical */
-  display: flex;
-  align-items: center;    /* centra el icono */
-  line-height: 1;
-}
-
-.cart-icon {
+  color: var(--navbar-text);
   font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color var(--transition);
+}
+.cart-button:hover {
+  color: var(--navbar-hover);
 }
 
+/* Badge con número de items */
 .cart-badge {
   position: absolute;
-  top: -6px;
-  right: -10px;
-  background: #e74c3c;
-  color: #fff;
+  top: 4px;
+  right: 4px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 0.75rem;
+  font-weight: bold;
   border-radius: 50%;
   padding: 0 6px;
-  font-size: 0.75rem;
 }
 
+/* Dropdown carrito (oculto por defecto) */
 .cart-dropdown {
   position: absolute;
+  top: 100%;
   right: 0;
-  top: 2.6rem;
-  width: 260px;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 0.8rem;
-  z-index: 150;
+  width: 280px;
+  background: var(--navbar-bg);
+  border: 1px solid var(--navbar-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border-radius: 4px;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--transition), transform var(--transition);
 }
 
+/* Al hacer .open (desde React) */
+.cart-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Encabezado */
 .cart-dropdown h4 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
   font-size: 1rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.3rem;
+  color: var(--navbar-text);
+  border-bottom: 1px solid var(--navbar-border);
+  padding-bottom: 0.5rem;
 }
 
+/* Lista de items */
 .cart-dropdown ul {
   list-style: none;
   margin: 0;
@@ -188,54 +215,78 @@
   overflow-y: auto;
 }
 
+/* Cada item */
 .cart-dropdown li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid #f1f1f1;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--navbar-border);
 }
 
+/* Título de casa */
 .cd-title {
   flex: 1;
   font-size: 0.9rem;
-  color: #333;
-  margin-right: 0.5rem;
+  color: var(--navbar-text);
 }
 
+/* Cantidad */
 .cd-qty {
-  font-size: 0.9rem;
-  margin-right: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--navbar-text);
+  margin: 0 0.5rem;
 }
 
+/* Botón eliminar */
 .cd-remove {
   background: none;
   border: none;
-  color: #e74c3c;
+  color: var(--badge-bg);
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+.cd-remove:hover {
+  color: #c2333f;
 }
 
+/* Mensaje “vacío” */
 .empty {
   text-align: center;
-  color: #888;
-  font-size: 0.9rem;
-  padding: 0.8rem 0;
+  color: var(--navbar-text);
+  font-size: 0.85rem;
+  padding: 1rem 0;
 }
 
+/* Botón “Ver carrito” o “Checkout” */
 .cd-checkout {
   display: block;
   width: 100%;
-  margin-top: 0.6rem;
-  padding: 0.5rem 0;
-  background: #27ae60;
-  color: #fff;
+  margin-top: 1rem;
+  padding: 0.75rem 0;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-weight: 600;
+  text-align: center;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+.cd-checkout:hover {
+  background: #c2333f; /* o usa darken(var(--badge-bg),10%) si importas Sass */
 }
 
-.cd-checkout:hover {
-  background: #219150;
+
+/*---------------------------------------------
+  Responsive
+---------------------------------------------*/
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+  .navbar-links {
+    gap: 1rem;
+  }
 }

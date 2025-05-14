@@ -54,5 +54,6 @@ Route::middleware('auth:sanctum')->delete('/reservas/{id}', [ReservaController::
     // Mostrar una casa concreta
     Route::get('/casas/{id}', [CasaControlador::class, 'show']);
     Route::get('/casas/{id}/imagenes', [CasaControlador::class, 'imagenes']);
+    Route::patch('/casas/{id}', [CasaControlador::class, 'update']);
 
 });

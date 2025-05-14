@@ -1,3 +1,4 @@
+// resources/js/pages/Carrito.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -30,10 +31,8 @@ export default function Carrito() {
     if (!window.confirm('¿Eliminar este elemento del carrito?')) return;
     try {
       await api.delete(`/carrito/${itemId}`);
-      setCarrito(c => ({
-        ...c,
-        items: c.items.filter(i => i.id !== itemId)
-      }));
+      // recarga automática sin F5
+      location.reload(true);
     } catch (err) {
       console.error('Error eliminando item:', err);
       alert('No se pudo eliminar el item.');
@@ -46,7 +45,8 @@ export default function Carrito() {
     try {
       // borramos uno a uno
       await Promise.all(carrito.items.map(i => api.delete(`/carrito/${i.id}`)));
-      setCarrito(c => ({ ...c, items: [] }));
+      // recarga automática sin F5
+      await fetchCarrito();
     } catch (err) {
       console.error('Error vaciando carrito:', err);
       alert('No se pudo vaciar el carrito.');

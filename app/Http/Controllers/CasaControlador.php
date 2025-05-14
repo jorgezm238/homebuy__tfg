@@ -57,4 +57,25 @@ class CasaControlador extends Controller
             'images'      => $imagenes,
         ], 200);
     }
+  public function update(Request $request, $id)
+    {
+        // 1) Buscar la casa
+        $casa = Casa::findOrFail($id);
+
+        // 2) Validar solo el estado
+        $data = $request->validate([
+            'estado' => 'required|in:disponible,reservada,vendida',
+        ]);
+
+        // 3) Asignar y guardar
+        $casa->estado = $data['estado'];
+        $casa->save();
+
+        // 4) Responder con la casa actualizada
+        return response()->json([
+            'message' => 'Estado actualizado correctamente.',
+            'casa'    => $casa,
+        ]);
+    }
+
 }

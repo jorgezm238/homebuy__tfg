@@ -1,0 +1,130 @@
+/* resources/css/gestion-stock.css */
+
+/* Colores y tipografía base */
+:root {
+  --color-primary: #4B0082;
+  --color-success: #2e7d32;
+  --color-warning: #d5890c;
+  --color-danger:  #b00020;
+  --color-gray-light:  #f8f9fa;
+  --color-gray-medium: #dee2e6;
+  --color-gray-dark:   #495057;
+  --color-text:        #343a40;
+  --bg-page:           #ffffff;
+  --font-family-base:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.gs-page {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  background: var(--bg-page);
+  font-family: var(--font-family-base);
+  color: var(--color-text);
+}
+
+.gs-page h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.gs-desc {
+  font-size: 1rem;
+  color: var(--color-gray-dark);
+  margin-bottom: 1.5rem;
+}
+
+.gs-loading {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color-gray-dark);
+  margin: 2rem 0;
+}
+
+/* Tabla de stock */
+.gs-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gs-table thead th {
+  background: var(--color-gray-light);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-dark);
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--color-gray-medium);
+}
+
+.gs-table th,
+.gs-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-gray-medium);
+}
+
+.gs-table tbody tr:nth-child(even) {
+  background: var(--color-gray-light);
+}
+
+.gs-table tbody tr:hover {
+  background: #f1f1f1;
+}
+
+/* Select inline */
+.gs-table select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-gray-medium);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.gs-table select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(75, 0, 130, 0.2);
+}
+
+/* Badges de estado opcionales */
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.gs-disponible { background: rgba(46,125,50,0.1); color: var(--color-success); }
+.gs-reservada  { background: rgba(213,137,12,0.1); color: var(--color-warning); }
+.gs-vendida    { background: rgba(176,0,32,0.1);   color: var(--color-danger); }
+
+/* Responsive: tabla a tarjetas */
+@media (max-width: 600px) {
+  .gs-table thead { display: none; }
+  .gs-table, .gs-table tbody, .gs-table tr, .gs-table td {
+    display: block;
+    width: 100%;
+  }
+  .gs-table tr { margin-bottom: 1rem; }
+  .gs-table td {
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+  .gs-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: calc(50% - 2rem);
+    white-space: nowrap;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
