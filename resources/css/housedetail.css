@@ -27,19 +27,17 @@
 .slider-container {
   position: relative;
   width: 100%;
-  /* eliminamos overflow:hidden para que ajuste altura automáticamente */
   background: #000;
   border-radius: 8px;
 }
 
 /* Cada imagen del slider */
 .slider-container .slide {
-  display: none;           /* ocultas por defecto */
+  display: none;
   width: 100%;
-  height: auto;            /* altura automática */
-  object-fit: contain;     /* toda la imagen cabe en el contenedor */
+  height: auto;
+  object-fit: contain;
   transition: opacity 0.5s ease;
-  position: static;        /* ocupa espacio normal */
 }
 
 /* Imagen activa */
@@ -64,14 +62,8 @@
   border-radius: 4px;
   z-index: 2;
 }
-
-.slider-container .prev {
-  left: 1rem;
-}
-
-.slider-container .next {
-  right: 1rem;
-}
+.slider-container .prev { left: 1rem; }
+.slider-container .next { right: 1rem; }
 
 /* ========================================
    Puntos de paginación
@@ -84,7 +76,6 @@
   display: flex;
   gap: 0.5rem;
 }
-
 .slider-container .dot {
   width: 10px;
   height: 10px;
@@ -93,7 +84,6 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 .slider-container .dot.active {
   background: #fff;
 }
@@ -106,18 +96,15 @@
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .hd-info h2 {
   margin: 0;
   font-size: 2rem;
   color: #264653;
 }
-
 .hd-info p {
   margin: 0.5rem 0;
   color: #333;
 }
-
 .hd-estado {
   display: inline-block;
   margin-left: 0.5rem;
@@ -126,11 +113,9 @@
   font-weight: 600;
   text-transform: capitalize;
 }
-
 .hd-disponible { background: #e6f4ea; color: #2e7d32; }
 .hd-reservada  { background: #fff4e5; color: #d5890c; }
 .hd-vendida    { background: #fdecea; color: #b00020; }
-
 .hd-desc {
   line-height: 1.5;
   color: #555;
@@ -144,7 +129,6 @@
   gap: 1rem;
   margin-top: 1.5rem;
 }
-
 .hd-btn {
   flex: 1;
   padding: 0.75rem;
@@ -155,7 +139,6 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 .hd-btn-primary {
   background-color: #2a9d8f;
   color: #fff;
@@ -163,13 +146,41 @@
 .hd-btn-primary:hover {
   background-color: #20776b;
 }
-
 .hd-btn-secondary {
   background-color: #e76f51;
   color: #fff;
 }
 .hd-btn-secondary:hover {
   background-color: #cf5b3f;
+}
+
+/* ========================================
+   Wrapper para favoritos + Toast
+   ======================================== */
+.fav-wrapper {
+  position: relative;
+  display: inline-block;
+}
+/* Toast justo debajo del botón */
+.fav-wrapper .hd-toast {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: toast-fade-in 0.2s forwards;
+  z-index: 10;
+}
+@keyframes toast-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ========================================
@@ -183,20 +194,14 @@
     grid-column: 1 / -1;
   }
 }
-
 @media (max-width: 768px) {
   .house-detail-slider {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .slider-container {
-    width: 100%;
-  }
-  .slider-container .slide {
-    /* ajustamos altura para móvil */
-    max-height: 300px;
-  }
+  .slider-container { width: 100%; }
+  .slider-container .slide { max-height: 300px; }
   .hd-info {
     width: 100%;
     padding: 0 1rem;

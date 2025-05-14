@@ -11,51 +11,55 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\CarritoController;
 
-    // Registro y login públicos
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login',    [AuthController::class, 'login']);
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
 
-    // Casas públicas
-    Route::get('/casas', [CasaControlador::class, 'index']);
+// Registro y login públicos
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
 
-// Rutas con token
+// Casas públicas
+Route::get('/casas',      [CasaControlador::class, 'index']);
+Route::get('/casas/{id}', [CasaControlador::class, 'show']);
+
+// Rutas que requieren token
 Route::middleware('auth:sanctum')->group(function(){
-    Route::get('/user',      fn(Request $r)=> $r->user());
-    Route::post('/contacto', [ContactoController::class, 'store']);
+
+    // Datos del usuario
+    Route::get('/user',      fn(Request $r) => $r->user());
     Route::post('/logout',   [AuthController::class, 'logout']);
-        Route::get(  '/favoritos',        [FavoritoController::class, 'index']);
-    Route::post(  '/favoritos',        [FavoritoController::class, 'store']);
-    Route::delete('/favoritos/{id}',   [FavoritoController::class, 'destroy']);
+
+    // Contacto
+    Route::post('/contacto', [ContactoController::class, 'store']);
+
+    // Favoritos
+    Route::get('/favoritos',         [FavoritoController::class, 'index']);
+    Route::post('/favoritos',        [FavoritoController::class, 'store']);
+    Route::delete('/favoritos/{id}', [FavoritoController::class, 'destroy']);
 
     // Carrito
-    Route::get(   '/carrito',          [CarritoController::class, 'show']);
-    Route::post(  '/carrito',          [CarritoController::class, 'store']);
+    Route::get('/carrito',           [CarritoController::class, 'show']);
+    Route::post('/carrito',          [CarritoController::class, 'store']);
     Route::delete('/carrito/{itemId}', [CarritoController::class, 'destroy']);
 
-        // Perfil de usuario
-    Route::get(   '/user',                [UserController::class, 'show']);
-    Route::put(   '/user',                [UserController::class, 'update']);
-    Route::put(   '/user/password',       [UserController::class, 'updatePassword']);
-    Route::post(  '/logout',              [AuthController::class, 'logout']);
+    // Perfil de usuario
+    Route::get('/user',              [UserController::class, 'show']);
+    Route::put('/user',              [UserController::class, 'update']);
+    Route::put('/user/password',     [UserController::class, 'updatePassword']);
 
-    // Reserva y compra
-    // Listar y borrar reservas
-    Route::get('/reservas',         [ReservaController::class, 'index']);
-    Route::post(  '/reservas',         [ReservaController::class, 'store']);
-    Route::delete('/reservas/{id}', [ReservaController::class, 'destroy']);
+    // Reservas
+    Route::get('/reservas',          [ReservaController::class, 'index']);
+    Route::post('/reservas',         [ReservaController::class, 'store']);
+    Route::delete('/reservas/{id}',  [ReservaController::class, 'destroy']);
 
-    // Listar y borrar compras
-    Route::get('/compras',         [CompraController::class, 'index']);
-    Route::post(  '/compras',          [CompraController::class, 'store']);    // ← esta línea
+    // Compras
+    Route::get('/compras',           [CompraController::class, 'index']);
+    Route::post('/compras',          [CompraController::class, 'store']);
+    Route::delete('/compras/{id}',   [CompraController::class, 'destroy']);
 
-    Route::delete('/compras/{id}', [CompraController::class, 'destroy']);
-Route::middleware('auth:sanctum')->delete('/reservas/{id}', [ReservaController::class, 'destroy']
-);
-    // Mostrar una casa concreta
-Route::get   ('casas',       [CasaControlador::class, 'index']);
-Route::get   ('casas/{id}',  [CasaControlador::class, 'show']);
-Route::patch ('casas/{id}',  [CasaControlador::class, 'update']);
-
-
-
+    // Gestión de stock (solo admin)
+    Route::patch('/casas/{id}',      [CasaControlador::class, 'update']);
 });

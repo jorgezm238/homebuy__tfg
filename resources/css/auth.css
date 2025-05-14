@@ -39,7 +39,7 @@
 
 .auth-card button {
   padding: 0.75rem;
-  background: #4B0082;
+  background: black;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -48,7 +48,7 @@
 }
 
 .auth-card button:hover {
-  background: #380066;
+  background: #1d1c1d;
 }
 
 .auth-card .error {

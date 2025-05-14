@@ -1,44 +1,45 @@
-// resources/js/pages/HouseDetail.jsx
+// resources/js/Pages/HouseDetail.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { FiHeart } from 'react-icons/fi';
 import api from '../services/api';
 import '../../css/housedetail.css';
 
 export default function HouseDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [house, setHouse]             = useState(null);
-  const [slides, setSlides]           = useState([]);
-  const [current, setCurrent]         = useState(0);
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState(false);
+  const [house, setHouse]           = useState(null);
+  const [slides, setSlides]         = useState([]);
+  const [current, setCurrent]       = useState(0);
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(false);
 
-  const [reservaLoading, setReservaLoading] = useState(false);
-  const [reservado, setReservado]           = useState(false);
+  const [favLoading, setFavLoading] = useState(false);
+  const [isFav, setIsFav]           = useState(false);
 
-  const [carritoLoading, setCarritoLoading] = useState(false);
-  const [enCarrito, setEnCarrito]           = useState(false);
+  // Toast de favorito
+  const [toast, setToast] = useState('');
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(''), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
 
-  const [hasReserved, setHasReserved] = useState(false);
-
-  // Carga datos de casa, slides y verifica si ya reservó
   useEffect(() => {
     setLoading(true);
     api.get(`/casas/${id}`)
       .then(({ data }) => {
         setHouse(data);
-        const imgs = data.images?.length ? data.images : [data.imagen];
-        setSlides(imgs);
-        setCurrent(0);
+        setSlides(data.images?.length ? data.images : [data.imagen]);
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
 
-    api.get('/reservas')
+    api.get('/favoritos')
       .then(({ data }) => {
-        const found = data.reservas?.some(r => r.house_id === Number(id));
-        setHasReserved(found);
-        setReservado(found);
+        const found = data.favoritos?.some(f => f.casa_id === Number(id));
+        setIsFav(found);
       })
       .catch(() => {});
   }, [id]);
@@ -46,65 +47,36 @@ export default function HouseDetail() {
   if (loading) return <p className="hd-loading">Cargando propiedad…</p>;
   if (error || !house) return <Navigate to="/" replace />;
 
-  // Slider controls (se mantienen igual)
+  // Slider controls
   const prev = () => setCurrent(i => (i - 1 + slides.length) % slides.length);
   const next = () => setCurrent(i => (i + 1) % slides.length);
   const goTo = idx => setCurrent(idx);
 
-  // Prompt para fianza
-  const promptFianza = () => {
-    const entrada = window.prompt(
-      'Introduce la fianza para reservar esta casa (mínimo 50 000 €):',
-      '50000'
-    );
-    if (entrada === null) return null;
-    const f = parseInt(entrada.replace(/\D/g, ''), 10);
-    if (isNaN(f) || f < 50000) {
-      window.alert('La fianza debe ser un número y al menos 50 000 €.');
-      return null;
-    }
-    return f;
+  // Reservar → redirigir
+  const handleReservar = e => {
+    e.stopPropagation();
+    navigate(`/reservar/${house.id}`);
   };
 
-  // Acción de reservar
-  const handleReservar = async () => {
-    const fianza = promptFianza();
-    if (fianza === null) return;
-    if (!window.confirm(`Confirmar reserva con fianza de ${fianza.toLocaleString()} €?`)) {
+  // Favorito con toast
+  const handleFavorito = async e => {
+    e.stopPropagation();
+    if (isFav) {
+      setToast('Ya es favorito');
       return;
     }
-    setReservaLoading(true);
+    setFavLoading(true);
     try {
-      await api.post('/reservas', { house_id: house.id, fianza });
-      window.alert('✅ Reserva solicitada correctamente.');
-      setReservado(true);
-      setHasReserved(true);
-      setHouse(prev => ({ ...prev, estado: 'reservada' }));
+      await api.post('/favoritos', { house_id: house.id });
+      setIsFav(true);
+      setToast('Casa añadida a favoritos');
     } catch (err) {
       console.error(err);
-      window.alert(err.response?.data?.message || 'Error al procesar la reserva.');
+      setToast(err.response?.data?.message || 'Error al añadir a favoritos');
     } finally {
-      setReservaLoading(false);
+      setFavLoading(false);
     }
   };
-
-  // Acción de añadir al carrito (solo si ya reservó)
-  const handleAddToCart = async () => {
-    setCarritoLoading(true);
-    try {
-      await api.post('/carrito', { house_id: house.id });
-      window.alert('🛒 Casa añadida al carrito.');
-      setEnCarrito(true);
-    } catch (err) {
-      console.error(err);
-      window.alert(err.response?.data?.message || 'Error al añadir al carrito.');
-    } finally {
-      setCarritoLoading(false);
-    }
-  };
-
-  // Sólo habilitamos carrito si el usuario ya reservó (ignora estado de la casa)
-  const canCarrito = hasReserved && !carritoLoading && !enCarrito;
 
   return (
     <div className="house-detail-slider">
@@ -135,7 +107,7 @@ export default function HouseDetail() {
         )}
       </div>
 
-      {/* Info de la casa */}
+      {/* Detalle */}
       <div className="hd-info">
         <h2>{house.titulo}</h2>
         <p><strong>Precio:</strong> {Number(house.precio).toLocaleString()} €</p>
@@ -152,26 +124,23 @@ export default function HouseDetail() {
           <button
             className="hd-btn hd-btn-primary"
             onClick={handleReservar}
-            disabled={reservaLoading || reservado || house.estado !== 'disponible'}
+            disabled={house.estado !== 'disponible'}
           >
-            {reservaLoading
-              ? 'Reservando…'
-              : reservado
-                ? 'Reservado ✔️'
-                : 'Reservar'}
+            Reservar
           </button>
 
-          <button
-            className="hd-btn hd-btn-secondary"
-            onClick={handleAddToCart}
-            disabled={!canCarrito}
-          >
-            {carritoLoading
-              ? 'Añadiendo…'
-              : enCarrito
-                ? 'En carrito 🛒'
-                : 'Añadir al carrito'}
-          </button>
+          {/* Wrapper para posicionar el toast */}
+          <div className="fav-wrapper">
+            <button
+              className="hd-btn hd-btn-secondary"
+              onClick={handleFavorito}
+              disabled={favLoading}
+            >
+              <FiHeart style={{ marginRight: '0.5rem' }} />
+              {isFav ? 'Favorito' : 'Añadir a favoritos'}
+            </button>
+            {toast && <div className="hd-toast">{toast}</div>}
+          </div>
         </div>
       </div>
     </div>
