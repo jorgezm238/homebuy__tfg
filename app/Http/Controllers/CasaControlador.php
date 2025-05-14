@@ -1,50 +1,51 @@
 <?php
+// app/Http/Controllers/CasaControlador.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Casa;
+use App\Models\Reserva;
+use App\Models\Compra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CasaControlador extends Controller
 {
     /**
      * GET /api/casas
-     * Devuelve el listado de casas con su imagen principal.
      */
     public function index()
     {
-        $casas = Casa::all()->map(function($c) {
-            return [
-                'id'          => $c->id,
-                'titulo'      => $c->titulo,
-                'descripcion' => $c->descripcion,
-                'precio'      => $c->precio,
-                'direccion'   => $c->direccion,
-                'estado'      => $c->estado,
-                'imagen'      => asset("storage/images/{$c->imagen}"),
-            ];
-        });
+        $casas = Casa::with('images')
+            ->get()
+            ->map(function($c) {
+                return [
+                    'id'          => $c->id,
+                    'titulo'      => $c->titulo,
+                    'descripcion' => $c->descripcion,
+                    'precio'      => $c->precio,
+                    'direccion'   => $c->direccion,
+                    'estado'      => $c->estado,
+                    'imagen'      => asset("storage/images/{$c->imagen}"),
+                    'images'      => $c->images->map(fn($img) =>
+                        asset("storage/images/{$img->ruta}")
+                    ),
+                ];
+            });
 
         return response()->json($casas, 200);
     }
 
     /**
      * GET /api/casas/{id}
-     * Devuelve una casa con TODAS sus imágenes.
      */
     public function show($id)
     {
-        // Cargamos la casa junto con la relación images
         $c = Casa::with('images')->find($id);
-
         if (! $c) {
             return response()->json(['mensaje' => 'Propiedad no encontrada.'], 404);
         }
-
-        // Convertimos cada ruta a URL absoluta
-        $imagenes = $c->images->map(function($img) {
-            return asset("storage/images/{$img->ruta}");
-        });
 
         return response()->json([
             'id'          => $c->id,
@@ -54,28 +55,64 @@ class CasaControlador extends Controller
             'direccion'   => $c->direccion,
             'estado'      => $c->estado,
             'imagen'      => asset("storage/images/{$c->imagen}"),
-            'images'      => $imagenes,
+            'images'      => $c->images->map(fn($img) =>
+                asset("storage/images/{$img->ruta}")
+            ),
         ], 200);
     }
-  public function update(Request $request, $id)
-    {
-        // 1) Buscar la casa
-        $casa = Casa::findOrFail($id);
 
-        // 2) Validar solo el estado
+    /**
+     * PATCH /api/casas/{id}
+     */
+    public function update(Request $request, $id)
+    {
         $data = $request->validate([
             'estado' => 'required|in:disponible,reservada,vendida',
         ]);
 
-        // 3) Asignar y guardar
-        $casa->estado = $data['estado'];
-        $casa->save();
+        try {
+            DB::beginTransaction();
 
-        // 4) Responder con la casa actualizada
-        return response()->json([
-            'message' => 'Estado actualizado correctamente.',
-            'casa'    => $casa,
-        ]);
+            $casa  = Casa::findOrFail($id);
+            $nuevo = $data['estado'];
+            $casa->estado = $nuevo;
+            $casa->save();
+
+            // 1) Si vuelve a “disponible”, borramos reservas y compras previas
+            if ($nuevo === 'disponible') {
+                Reserva::where('house_id', $id)->delete();
+                Compra::where('house_id', $id)->delete();
+            }
+
+            // 2) Si lo marcamos “vendida”, convertimos la reserva (si la hay) en compra
+            if ($nuevo === 'vendida') {
+                $reserva = Reserva::where('house_id', $id)->first();
+                if ($reserva) {
+                    Compra::create([
+                        'user_id'      => $reserva->user_id,
+                        'house_id'     => $id,
+                        'fecha_compra' => now(),
+                    ]);
+                    $reserva->delete();
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Estado actualizado correctamente.',
+                'casa'    => $casa,
+            ], 200);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('Error al actualizar estado de casa', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'message' => 'Error interno al actualizar estado.'
+            ], 500);
+        }
     }
-
 }

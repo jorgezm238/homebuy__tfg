@@ -1,4 +1,5 @@
 <?php
+// app/Models/Casa.php
 
 namespace App\Models;
 
@@ -9,10 +10,8 @@ class Casa extends Model
 {
     use HasFactory;
 
-    // Nombre de la tabla en BD
     protected $table = 'casas';
 
-    // Campos asignables por mass-assignment
     protected $fillable = [
         'titulo',
         'descripcion',
@@ -23,16 +22,20 @@ class Casa extends Model
         'agente_id',
     ];
 
-    /**
-     * Relación con el usuario (agente) que gestiona la casa
-     */
-    public function agente()
-    {
-        return $this->belongsTo(Usuario::class, 'agente_id');
-    }
-    
     public function images()
-{
-    return $this->hasMany(CasaImagen::class, 'casa_id');
-}
+    {
+        return $this->hasMany(CasaImagen::class, 'casa_id');
+    }
+
+    // Relación con reservas (usa house_id)
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class, 'house_id');
+    }
+
+    // Relación con compras (usa house_id)
+    public function compras()
+    {
+        return $this->hasMany(Compra::class, 'house_id');
+    }
 }

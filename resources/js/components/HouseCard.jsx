@@ -1,56 +1,36 @@
 // resources/js/pages/HouseCard.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FiCalendar, FiHeart, FiShoppingCart } from 'react-icons/fi';
 import api from '../services/api';
 import '../../css/housecard.css';
 
 export default function HouseCard({ house, onUpdate }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]       = useState(false);
   const [isFavorito, setIsFavorito] = useState(house.isFavorito ?? false);
   const [inCart, setInCart]         = useState(house.inCart    ?? false);
+  const [toast, setToast]           = useState('');   // mensaje breve
 
+  // Auto‐ocultar el toast tras 3 segundos
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(''), 3000);
+    return () => clearTimeout(id);
+  }, [toast]);
+
+  // Al hacer click en la tarjeta, vamos al detalle
   const handleClick = () => {
     navigate(`/propiedad/${house.id}`);
   };
 
-  const promptFianza = async () => {
-    const entrada = window.prompt(
-      'Introduce la fianza para reservar esta casa (mínimo 50 000 €):',
-      '50000'
-    );
-    if (entrada === null) return null;
-    const f = parseInt(entrada, 10);
-    if (isNaN(f) || f < 50000) {
-      window.alert('La fianza debe ser un número y al menos 50 000 €.');
-      return null;
-    }
-    return f;
-  };
-
-  const handleReservar = async e => {
+  // 1) Reservar → redirige al formulario de reserva
+  const handleReservar = e => {
     e.stopPropagation();
-    const fianza = await promptFianza();
-    if (fianza === null) return;
-
-    setLoading(true);
-    try {
-      const { data } = await api.post('/reservas', {
-        house_id: house.id,
-        fianza
-      });
-      window.alert('✅ Reserva solicitada correctamente.');
-      onUpdate?.(data.casa);
-    } catch (err) {
-      console.error('Error reserva:', err.response?.data);
-      const msg = err.response?.data?.message
-        || 'Error al enviar la reserva.';
-      window.alert(msg);
-    } finally {
-      setLoading(false);
-    }
+    navigate(`/reservar/${house.id}`);
   };
 
+  // 2) Favoritos con toast
   const handleFavorito = async e => {
     e.stopPropagation();
     if (isFavorito) return;
@@ -58,15 +38,17 @@ export default function HouseCard({ house, onUpdate }) {
     try {
       await api.post('/favoritos', { house_id: house.id });
       setIsFavorito(true);
-      window.alert('⭐ Casa añadida a favoritos.');
+      setToast('Casa añadida a favoritos');
+      onUpdate?.();
     } catch (err) {
-      console.error('Error favoritos:', err.response?.data);
-      window.alert(err.response?.data?.message || 'No se pudo añadir a favoritos.');
+      console.error(err);
+      setToast(err.response?.data?.message || 'Error al añadir a favoritos');
     } finally {
       setLoading(false);
     }
   };
 
+  // 3) Carrito con toast
   const handleAddToCart = async e => {
     e.stopPropagation();
     if (inCart) return;
@@ -74,16 +56,17 @@ export default function HouseCard({ house, onUpdate }) {
     try {
       await api.post('/carrito', { house_id: house.id });
       setInCart(true);
-      window.alert('🛒 Casa añadida al carrito.');
+      setToast('Casa añadida al carrito');
+      onUpdate?.();
     } catch (err) {
-      console.error('Error carrito:', err.response?.data);
-      window.alert(err.response?.data?.message || 'No se pudo añadir al carrito.');
+      console.error(err);
+      setToast(err.response?.data?.message || 'Error al añadir al carrito');
     } finally {
       setLoading(false);
     }
   };
 
-  // Color según estado
+  // Color del estado
   const estadoColor = {
     disponible: 'green',
     reservada:  'orange',
@@ -96,6 +79,10 @@ export default function HouseCard({ house, onUpdate }) {
       onClick={handleClick}
       style={{ opacity: loading ? 0.6 : 1 }}
     >
+      {/* Toast inline */}
+      {toast && <div className="hc-toast">{toast}</div>}
+
+      {/* Imagen */}
       <div className="hc-image-wrapper">
         <img
           src={house.imagen}
@@ -103,6 +90,8 @@ export default function HouseCard({ house, onUpdate }) {
           onError={e => e.currentTarget.src = 'https://via.placeholder.com/400x300?text=No+Image'}
         />
       </div>
+
+      {/* Contenido */}
       <div className="hc-body">
         <h3>{house.titulo}</h3>
         <p className="hc-estado" style={{ color: estadoColor }}>
@@ -113,25 +102,31 @@ export default function HouseCard({ house, onUpdate }) {
         <p className="hc-direccion">
           Número del Inmueble → <strong>{house.id}</strong>
         </p>
+
+        {/* Botones de acción */}
         <div className="hc-actions">
           <button
+            className="hc-btn-reservar"
             onClick={handleReservar}
             disabled={loading || house.estado !== 'disponible'}
           >
-            📅 Reservar
+            <FiCalendar /> Reservar
           </button>
+
           <button
+            className="hc-btn-favorito"
             onClick={handleFavorito}
             disabled={loading || isFavorito}
           >
-            {isFavorito ? '❤️ Favorito' : '❤️ Añadir a favoritos'}
+            <FiHeart /> {isFavorito ? 'Favorito' : 'Añadir a favoritos'}
           </button>
+
           <button
+            className="hc-btn-carrito"
             onClick={handleAddToCart}
-            disabled={loading || inCart || house.estado !== 'disponible'}
-            title={house.estado !== 'disponible' ? 'Solo casas disponibles' : undefined}
+            disabled={loading || inCart || house.estado === 'vendida'}
           >
-            🛒 {inCart ? 'En el carrito' : 'Añadir al carrito'}
+            <FiShoppingCart /> {inCart ? 'En el carrito' : 'Añadir al carrito'}
           </button>
         </div>
       </div>

@@ -6,13 +6,15 @@ import '../../css/gestion-stock.css';
 export default function GestionStock() {
   const [casas, setCasas]     = useState([]);
   const [loading, setLoading] = useState(true);
+  const [msg, setMsg]         = useState(null);
 
+  // 1) Carga inicial y refresco cada 5s
   const fetchCasas = async () => {
     try {
       const { data } = await api.get('/casas');
       setCasas(data);
     } catch (err) {
-      console.error('Error fetch /casas:', err.response || err);
+      console.error('Error al cargar casas:', err);
     } finally {
       setLoading(false);
     }
@@ -24,23 +26,25 @@ export default function GestionStock() {
     return () => clearInterval(iv);
   }, []);
 
-  const handleChange = async (id, nuevoEstado) => {
+  // 2) Al cambiar estado: PATCH
+  const handleChange = async (id, nuevoEstado, titulo) => {
     try {
-      const { data } = await api.patch(`/casas/${id}`, { estado: nuevoEstado });
-      // Actualiza solo esa fila en local
+      await api.patch(`/casas/${id}`, { estado: nuevoEstado });
       setCasas(cs =>
-        cs.map(c => c.id === id ? { ...c, estado: data.casa.estado } : c)
+        cs.map(c => c.id === id ? { ...c, estado: nuevoEstado } : c)
       );
+      setMsg(`✅ "${titulo}" ahora está "${nuevoEstado}".`);
+      setTimeout(() => setMsg(null), 3000);
     } catch (err) {
-      console.error('Error al actualizar estado:', err.response || err);
-      alert(
-        err.response?.data?.message
-          || `Error al actualizar (status ${err.response?.status})`
-      );
+      console.error('Error al actualizar estado:', err);
+      setMsg('❌ No se pudo cambiar el estado.');
+      setTimeout(() => setMsg(null), 3000);
     }
   };
 
-  if (loading) return <p className="gs-loading">Cargando gestión de stock…</p>;
+  if (loading) {
+    return <p className="gs-loading">Cargando gestión de stock…</p>;
+  }
 
   return (
     <div className="gs-page">
@@ -48,6 +52,9 @@ export default function GestionStock() {
       <p className="gs-desc">
         Sistema que actualiza en tiempo real la disponibilidad de las viviendas.
       </p>
+
+      {msg && <div className="gs-alert">{msg}</div>}
+
       <table className="gs-table">
         <thead>
           <tr>
@@ -61,10 +68,10 @@ export default function GestionStock() {
             <tr key={c.id}>
               <td>{c.id}</td>
               <td>{c.titulo}</td>
-              <td>
+              <td className="gs-td-select">
                 <select
                   value={c.estado}
-                  onChange={e => handleChange(c.id, e.target.value)}
+                  onChange={e => handleChange(c.id, e.target.value, c.titulo)}
                 >
                   <option value="disponible">Disponible</option>
                   <option value="reservada">Reservada</option>

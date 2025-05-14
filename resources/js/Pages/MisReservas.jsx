@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import '../../css/mis-reservas.css';
 
 export default function MisReservas() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Carga inicial
   useEffect(() => {
@@ -34,30 +36,41 @@ export default function MisReservas() {
     }
   };
 
+  const handleVer = houseId => {
+    navigate(`/propiedad/${houseId}`);
+  };
+
   return (
-    <div className="mis-reservas">
-      <h2>Mis Reservas</h2>
+    <div className="mr-page">
+      <h2 className="mr-title">Mis Reservas</h2>
+
       {loading && <p className="mr-loading">Cargando reservas…</p>}
+
       {!loading && reservas.length === 0 && (
         <p className="mr-empty">No tienes reservas activas.</p>
       )}
+
       {!loading && reservas.length > 0 && (
         <ul className="mr-list">
           {reservas.map(r => (
             <li key={r.id} className="mr-item">
               <div className="mr-info">
-                <span className="mr-id">Reserva #{r.id}</span>
-                <span className="mr-house">Casa #{r.house_id}</span>
-                <span className="mr-date">
+                <span className="mr-label">Casa</span>
+                <span className="mr-value">#{r.house_id}</span>
+                <span className="mr-label">Fecha</span>
+                <span className="mr-value">
                   {new Date(r.fecha_inicio).toLocaleDateString()}
                 </span>
               </div>
-              <button
-                className="mr-btn-eliminar"
-                onClick={() => handleEliminar(r.id)}
-              >
-                Eliminar
-              </button>
+              <div className="mr-actions">
+                <button
+                  className="mr-btn mr-btn-view"
+                  onClick={() => handleVer(r.house_id)}
+                >
+                  Ver
+                </button>
+
+              </div>
             </li>
           ))}
         </ul>

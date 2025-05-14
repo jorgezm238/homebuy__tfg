@@ -77,66 +77,102 @@
   color: var(--navbar-hover);
 }
 
-/*---------------------------------------------
-  Dropdown “Mi Cuenta”
----------------------------------------------*/
+/* ================================
+   Dropdown “Mi Cuenta” Profesional
+   ================================ */
 .navbar-account {
   position: relative;
 }
 
+/* Botón que abre el menú */
 .account-label {
   background: none;
   border: none;
+  cursor: pointer;
   color: var(--navbar-text);
   font-size: 0.9rem;
   font-weight: 500;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   padding: 0.5rem;
   transition: color var(--transition);
 }
-
 .account-label:hover {
   color: var(--navbar-hover);
 }
 
+/* La flecha pequeña encima del menú */
+.account-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--navbar-bg);
+}
+
+/* El contenedor del dropdown */
 .account-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 6px);
   right: 0;
   background: var(--navbar-bg);
   border: 1px solid var(--navbar-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   border-radius: 4px;
-  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  width: 180px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity var(--transition), transform var(--transition);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
 }
-
 .account-dropdown.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
+/* Cada opción */
+.account-dropdown li {
+  margin: 0;
+}
 .account-dropdown li a,
 .account-dropdown li button {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   color: var(--navbar-text);
+  font-size: 0.9rem;
   background: none;
   border: none;
-  text-align: left;
-  font-size: 0.9rem;
-  transition: background var(--transition);
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
 }
-
 .account-dropdown li a:hover,
 .account-dropdown li button:hover {
-  background: var(--navbar-border);
+  background: var(--navbar-hover);
+  color: var(--navbar-bg);
+  border-radius: 2px;
 }
+
+
+
+
+/* Ajustes responsivos si hiciera falta */
+@media (max-width: 768px) {
+  .account-dropdown {
+    right: 1rem;
+    width: 150px;
+  }
+}
+
 
 /*---------------------------------------------
   Carrito en el Nav

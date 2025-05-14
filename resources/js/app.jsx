@@ -29,6 +29,7 @@ import CambiarPassword  from './Pages/CambiarPassword';
 import Carrito          from './Pages/Carrito';
 import GestionStock     from './Pages/GestionStock';
 import Reservar from './Pages/Reservar';
+import Checkout from './Pages/Checkout';
 
 import '../css/app.scss';
 
@@ -62,6 +63,7 @@ function AppContent() {
             <Route path="/carrito-detalle"   element={<Carrito />} />
             <Route path="/gestion-stock"     element={<GestionStock />} />
             <Route path="/reservar/:id" element={<Reservar />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
 
           {/* Catch-all */}

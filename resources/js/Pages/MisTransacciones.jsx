@@ -90,12 +90,7 @@ export default function MisTransacciones() {
                     {new Date(r.fecha_inicio).toLocaleDateString()}
                   </span>
                 </div>
-                <button
-                  className="btn-eliminar"
-                  onClick={() => handleEliminarReserva(r.id)}
-                >
-                  Eliminar
-                </button>
+            
               </li>
             ))}
           </ul>
@@ -121,12 +116,7 @@ export default function MisTransacciones() {
                       : '—'}
                   </span>
                 </div>
-                <button
-                  className="btn-eliminar"
-                  onClick={() => handleEliminarCompra(c.id)}
-                >
-                  Eliminar
-                </button>
+          
               </li>
             ))}
           </ul>

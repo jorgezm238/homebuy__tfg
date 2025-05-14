@@ -1,130 +1,184 @@
 /* resources/css/gestion-stock.css */
 
-/* Colores y tipografía base */
+/*==============================================
+  Tema y variables
+===============================================*/
 :root {
-  --color-primary: #4B0082;
-  --color-success: #2e7d32;
-  --color-warning: #d5890c;
-  --color-danger:  #b00020;
-  --color-gray-light:  #f8f9fa;
-  --color-gray-medium: #dee2e6;
-  --color-gray-dark:   #495057;
-  --color-text:        #343a40;
-  --bg-page:           #ffffff;
-  --font-family-base:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --primary-color:   #000000;
+  --secondary-color: #6c63ff;
+  --bg-page:         #f5f5f5;
+  --bg-panel:        #ffffff;
+  --text-color:      #333333;
+  --text-light:      #555555;
+  --border-color:    #e0e0e0;
+  --success-color:   #27ae60;
+  --error-color:     #e74c3c;
+  --warning-color:   #f39c12;
+  --transition:      0.2s ease;
+  --radius:          6px;
+  --font-base:       'Helvetica Neue', Arial, sans-serif;
 }
 
+/*==============================================
+  Página
+===============================================*/
 .gs-page {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 2rem auto;
-  padding: 0 1rem;
-  background: var(--bg-page);
-  font-family: var(--font-family-base);
-  color: var(--color-text);
+  padding: 1rem;
+  font-family: var(--font-base);
+  color: var(--text-color);
+  background-color: var(--bg-page);
 }
 
+/* Título principal */
 .gs-page h2 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   font-size: 2rem;
-  color: var(--color-primary);
-}
-
-.gs-desc {
-  font-size: 1rem;
-  color: var(--color-gray-dark);
-  margin-bottom: 1.5rem;
-}
-
-.gs-loading {
+  color: var(--primary-color);
   text-align: center;
-  font-size: 1.1rem;
-  color: var(--color-gray-dark);
-  margin: 2rem 0;
+  font-weight: 600;
 }
 
-/* Tabla de stock */
+/* Descripción */
+.gs-desc {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/*==============================================
+  Mensajes inline
+===============================================*/
+.gs-alert {
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: var(--text-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--transition);
+}
+.gs-alert::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px; height: 100%;
+  background-color: var(--primary-color);
+}
+
+/*==============================================
+  Tabla
+===============================================*/
 .gs-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--bg-panel);
 }
 
-.gs-table thead th {
-  background: var(--color-gray-light);
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  color: var(--color-gray-dark);
-  padding: 0.75rem 1rem;
-  border-bottom: 2px solid var(--color-gray-medium);
+.gs-table thead {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 .gs-table th,
 .gs-table td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--color-gray-medium);
+  text-align: left;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.gs-table th {
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .gs-table tbody tr:nth-child(even) {
-  background: var(--color-gray-light);
+  background-color: #fafafa;
 }
 
 .gs-table tbody tr:hover {
-  background: #f1f1f1;
+  background-color: #f0f0f0;
 }
 
-/* Select inline */
+/*==============================================
+  Select personalizado
+===============================================*/
 .gs-table select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   padding: 0.4rem 0.6rem;
-  border: 1px solid var(--color-gray-medium);
-  border-radius: 4px;
-  background: #fff;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
   cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .gs-table select:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(75, 0, 130, 0.2);
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
 }
 
-/* Badges de estado opcionales */
-.badge {
-  display: inline-block;
-  padding: 0.25em 0.5em;
-  border-radius: 0.25rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: capitalize;
+/*==============================================
+  Estado loading
+===============================================*/
+.gs-loading {
+  text-align: center;
+  margin: 4rem 0;
+  font-size: 1.1rem;
+  color: var(--text-light);
 }
 
-.gs-disponible { background: rgba(46,125,50,0.1); color: var(--color-success); }
-.gs-reservada  { background: rgba(213,137,12,0.1); color: var(--color-warning); }
-.gs-vendida    { background: rgba(176,0,32,0.1);   color: var(--color-danger); }
-
-/* Responsive: tabla a tarjetas */
-@media (max-width: 600px) {
-  .gs-table thead { display: none; }
-  .gs-table, .gs-table tbody, .gs-table tr, .gs-table td {
-    display: block;
-    width: 100%;
+/*==============================================
+  Responsive
+===============================================*/
+@media (max-width: 768px) {
+  .gs-page {
+    padding: 1rem 0.5rem;
   }
-  .gs-table tr { margin-bottom: 1rem; }
+  .gs-table th,
   .gs-table td {
-    position: relative;
-    padding-left: 50%;
-    text-align: right;
+    padding: 0.6rem 0.8rem;
   }
-  .gs-table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 1rem;
-    width: calc(50% - 2rem);
-    white-space: nowrap;
-    font-weight: 600;
-    text-transform: uppercase;
+  .gs-page h2 {
+    font-size: 1.75rem;
+  }
+  .gs-desc {
+    font-size: 0.9rem;
   }
 }
+/* CEntrar contenido de la columna "Estado" */
+.gs-table th:nth-child(3),
+.gs-table td:nth-child(3) {
+  text-align: center;      /* centro horizontal */
+  vertical-align: middle;  /* centro vertical en celdas */
+}
+
+/* Asegurarnos de que el <select> o botones ocupen su espacio y queden centrados */
+.gs-table td:nth-child(3) select {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* Opcional: si los estados los estás renderizando como botones en lugar de <select> */
+.gs-table td:nth-child(3) button {
+  margin: 0 auto;
+  display: inline-block;
+}
+

@@ -1,66 +1,113 @@
-.mis-reservas {
+/* Contenedor principal */
+.mr-page {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
   padding: 0 1rem;
-  font-family: sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-.mis-reservas h2 {
+/* Título */
+.mr-title {
   text-align: center;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
+  color: #333;
 }
 
+/* Mensajes de estado */
 .mr-loading,
 .mr-empty {
   text-align: center;
   color: #666;
+  font-size: 1rem;
 }
 
+/* Lista de reservas */
 .mr-list {
   list-style: none;
-  padding: 0;
   margin: 0;
-}
-
-.mr-item {
+  padding: 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f9f9f9;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  transition: background 0.2s;
-}
-
-.mr-item:hover {
-  background: #f0f0f0;
-}
-
-.mr-info {
-  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
-.mr-id {
-  font-weight: bold;
+/* Cada reserva */
+.mr-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: box-shadow 0.2s ease;
 }
 
-.mr-house,
-.mr-date {
-  color: #333;
+.mr-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
 
-.mr-btn-eliminar {
-  background: #e74c3c;
+/* Datos de la reserva */
+.mr-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  flex: 1;
+}
+
+.mr-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.mr-value {
+  font-weight: 500;
+  color: #222;
+}
+
+/* Botones de acción */
+.mr-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.mr-btn {
+  padding: 0.5rem 0.9rem;
   border: none;
-  color: white;
-  padding: 0.5rem 0.75rem;
   border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.mr-btn-eliminar:hover {
-  background: #c0392b;
+/* Ver detalle */
+.mr-btn-view {
+  background-color: #2a9d8f;
+  color: #fff;
+}
+
+.mr-btn-view:hover {
+  background-color: #218075;
+  transform: translateY(-1px);
+}
+
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .mr-info {
+    flex-direction: column;
+    gap: 0.25rem 1rem;
+  }
+  .mr-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
 }

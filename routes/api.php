@@ -52,8 +52,10 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::middleware('auth:sanctum')->delete('/reservas/{id}', [ReservaController::class, 'destroy']
 );
     // Mostrar una casa concreta
-    Route::get('/casas/{id}', [CasaControlador::class, 'show']);
-    Route::get('/casas/{id}/imagenes', [CasaControlador::class, 'imagenes']);
-    Route::patch('/casas/{id}', [CasaControlador::class, 'update']);
+Route::get   ('casas',       [CasaControlador::class, 'index']);
+Route::get   ('casas/{id}',  [CasaControlador::class, 'show']);
+Route::patch ('casas/{id}',  [CasaControlador::class, 'update']);
+
+
 
 });

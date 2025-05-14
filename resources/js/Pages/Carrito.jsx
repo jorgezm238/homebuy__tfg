@@ -6,10 +6,11 @@ import '../../css/carrito.css';
 
 export default function Carrito() {
   const [carrito, setCarrito] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [toast, setToast]     = useState('');
+  const navigate               = useNavigate();
 
-  // Cargar carrito al montar
+  // 1) Carga inicial
   useEffect(() => {
     fetchCarrito();
   }, []);
@@ -27,76 +28,123 @@ export default function Carrito() {
     }
   };
 
+  // 2) Eliminar un ítem
   const handleRemove = async itemId => {
     if (!window.confirm('¿Eliminar este elemento del carrito?')) return;
     try {
       await api.delete(`/carrito/${itemId}`);
-      // recarga automática sin F5
-      location.reload(true);
+      fetchCarrito();
     } catch (err) {
       console.error('Error eliminando item:', err);
       alert('No se pudo eliminar el item.');
     }
   };
 
+  // 3) Vaciar carrito
   const handleEmpty = async () => {
     if (!carrito?.items.length) return;
     if (!window.confirm('¿Vaciar todo el carrito?')) return;
     try {
-      // borramos uno a uno
-      await Promise.all(carrito.items.map(i => api.delete(`/carrito/${i.id}`)));
-      // recarga automática sin F5
-      await fetchCarrito();
+      await Promise.all(
+        carrito.items.map(i => api.delete(`/carrito/${i.id}`))
+      );
+      fetchCarrito();
     } catch (err) {
       console.error('Error vaciando carrito:', err);
       alert('No se pudo vaciar el carrito.');
     }
   };
 
+  // 4) Checkout sin diálogo nativo
   const handleCheckout = () => {
-    // Aquí podrías redirigir a la página de checkout/pago
-    navigate('/checkout');
+    // 4.1 muestra toast breve
+    setToast('🛒 Redirigiendo a pago…');
+    setTimeout(() => {
+      navigate('/checkout');
+    }, 800);
   };
 
-  if (loading || !carrito) {
+  // auto-ocultar toast en 3s
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(''), 3000);
+    return () => clearTimeout(id);
+  }, [toast]);
+
+  if (loading) {
     return <p className="car-cargando">Cargando carrito…</p>;
   }
+
+  if (!carrito || carrito.items.length === 0) {
+    return (
+      <div className="carrito-page">
+        <h2>Mi Carrito</h2>
+        <p className="empty">Tu carrito está vacío.</p>
+      </div>
+    );
+  }
+
+  const total = carrito.items.reduce(
+    (sum, i) => sum + i.cantidad * Number(i.casa.precio),
+    0
+  );
 
   return (
     <div className="carrito-page">
       <h2>Mi Carrito</h2>
 
-      {carrito.items.length === 0 ? (
-        <p className="empty">Tu carrito está vacío.</p>
-      ) : (
-        <>
-          <ul className="carrito-list">
-            {carrito.items.map(item => (
-              <li key={item.id} className="carrito-item">
-                <div className="ci-info">
-                  <strong>{item.casa.titulo || `Casa #${item.casa_id}`}</strong>
-                  <span>Cantidad: {item.cantidad}</span>
-                </div>
+      {toast && <div className="cart-toast">{toast}</div>}
+
+      <table className="cart-table">
+        <thead>
+          <tr>
+            <th>Inmueble</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {carrito.items.map(item => (
+            <tr key={item.id}>
+              <td className="cart-item">
+                <img
+                  src={item.casa.imagen}
+                  alt={item.casa.titulo}
+                  onError={e => e.currentTarget.src = 'https://via.placeholder.com/80'}
+                />
+                <span>{item.casa.titulo}</span>
+              </td>
+              <td>€ {Number(item.casa.precio).toLocaleString()}</td>
+              <td>{item.cantidad}</td>
+              <td>€ {(item.cantidad * Number(item.casa.precio)).toLocaleString()}</td>
+              <td>
                 <button
                   className="ci-remove"
                   onClick={() => handleRemove(item.id)}
-                >
-                  Eliminar
-                </button>
-              </li>
-            ))}
-          </ul>
+                >✕</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="3" className="total-label">Total:</td>
+            <td className="total-amount">€ {total.toLocaleString()}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
 
-          <div className="carrito-actions">
-            <button className="btn-empty" onClick={handleEmpty}>
-              Vaciar carrito
-            </button>
-            <button className="btn-checkout" onClick={handleCheckout}>
-              Proceder a la compra
-            </button>
-          </div>
-        </>
-      )}
+      <div className="carrito-actions">
+        <button className="btn-empty" onClick={handleEmpty}>
+          Vaciar carrito
+        </button>
+        <button className="btn-checkout" onClick={handleCheckout}>
+          Comprar
+        </button>
+      </div>
     </div>
   );
 }
