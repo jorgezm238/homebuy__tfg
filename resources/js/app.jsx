@@ -30,6 +30,7 @@ import Carrito          from './Pages/Carrito';
 import GestionStock     from './Pages/GestionStock';
 import Reservar from './Pages/Reservar';
 import Checkout from './Pages/Checkout';
+import SearchResults     from './components/SearchResults';
 
 import '../css/app.scss';
 
@@ -49,6 +50,7 @@ function AppContent() {
           <Route path="/"         element={<Home />} />
           <Route path="/login"    element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          
 
           {/* Protegidas */}
           <Route element={<RutaPrivada />}>
@@ -64,6 +66,7 @@ function AppContent() {
             <Route path="/gestion-stock"     element={<GestionStock />} />
             <Route path="/reservar/:id" element={<Reservar />} />
             <Route path="/checkout" element={<Checkout />} />
+              <Route path="/busqueda" element={<SearchResults />} />
           </Route>
 
           {/* Catch-all */}

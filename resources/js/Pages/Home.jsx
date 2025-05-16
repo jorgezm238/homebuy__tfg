@@ -22,7 +22,12 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <h1>Inmuebles Disponibles</h1>
+      <header className="home-header">
+        <h1>Viviendas Disponibles</h1>
+        <p className="home-subtitle">
+          Encuentra tu próximo hogar con la mejor selección
+        </p>
+      </header>
       <div className="home-grid">
         {casas.map(c => (
           <HouseCard key={c.id} house={c} />

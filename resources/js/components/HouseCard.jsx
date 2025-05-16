@@ -7,6 +7,8 @@ import '../../css/housecard.css';
 
 export default function HouseCard({ house, onUpdate }) {
   const navigate = useNavigate();
+  const token    = localStorage.getItem('token');
+
   const [loading, setLoading]       = useState(false);
   const [isFavorito, setIsFavorito] = useState(house.isFavorito ?? false);
   const [inCart, setInCart]         = useState(house.inCart    ?? false);
@@ -24,15 +26,23 @@ export default function HouseCard({ house, onUpdate }) {
     navigate(`/propiedad/${house.id}`);
   };
 
-  // 1) Reservar → redirige al formulario de reserva
+  // 1) Reservar → redirige al formulario o a login si no auth
   const handleReservar = e => {
     e.stopPropagation();
-    navigate(`/reservar/${house.id}`);
+    if (!token) {
+      navigate('/login');
+    } else {
+      navigate(`/reservar/${house.id}`);
+    }
   };
 
-  // 2) Favoritos con toast
+  // 2) Favoritos con toast y login redirect
   const handleFavorito = async e => {
     e.stopPropagation();
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     if (isFavorito) return;
     setLoading(true);
     try {
@@ -48,9 +58,13 @@ export default function HouseCard({ house, onUpdate }) {
     }
   };
 
-  // 3) Carrito con toast
+  // 3) Carrito con toast y login redirect
   const handleAddToCart = async e => {
     e.stopPropagation();
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     if (inCart) return;
     setLoading(true);
     try {
@@ -79,10 +93,8 @@ export default function HouseCard({ house, onUpdate }) {
       onClick={handleClick}
       style={{ opacity: loading ? 0.6 : 1 }}
     >
-      {/* Toast inline */}
       {toast && <div className="hc-toast">{toast}</div>}
 
-      {/* Imagen */}
       <div className="hc-image-wrapper">
         <img
           src={house.imagen}
@@ -91,7 +103,6 @@ export default function HouseCard({ house, onUpdate }) {
         />
       </div>
 
-      {/* Contenido */}
       <div className="hc-body">
         <h3>{house.titulo}</h3>
         <p className="hc-estado" style={{ color: estadoColor }}>
@@ -103,7 +114,6 @@ export default function HouseCard({ house, onUpdate }) {
           Número del Inmueble → <strong>{house.id}</strong>
         </p>
 
-        {/* Botones de acción */}
         <div className="hc-actions">
           <button
             className="hc-btn-reservar"

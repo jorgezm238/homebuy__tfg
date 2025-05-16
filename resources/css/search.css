@@ -1,0 +1,190 @@
+/*----------------------------------------
+  Grid de resultados
+----------------------------------------*/
+.search-results {
+  padding: 1rem;
+}
+.search-results h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333333;
+}
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/*----------------------------------------
+  Variables de tema (idénticas a housecard.css)
+----------------------------------------*/
+:root {
+  --card-bg:          #ffffff;
+  --card-radius:      8px;
+  --shadow-light:     rgba(0, 0, 0, 0.05);
+  --shadow-strong:    rgba(0, 0, 0, 0.1);
+  --font-base:        'Inter', sans-serif;
+  --color-text:       #333333;
+  --color-subtext:    #555555;
+  --color-accent:     #2a9d8f;
+  --color-secondary:  #e76f51;
+  --color-reserve:    #264653;
+  --transition-base:  0.2s ease;
+}
+
+/*----------------------------------------
+  Contenedor de la tarjeta (house-card)
+----------------------------------------*/
+.results-grid .house-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  cursor: pointer;
+}
+.results-grid .house-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px var(--shadow-strong);
+}
+
+/*----------------------------------------
+  Sección de imagen (16:9)
+----------------------------------------*/
+.results-grid .hc-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+.results-grid .hc-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*----------------------------------------
+  Cuerpo de la tarjeta
+----------------------------------------*/
+.results-grid .hc-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.results-grid .hc-body h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.results-grid .hc-body .hc-estado {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--color-accent);
+}
+.results-grid .hc-body .hc-precio {
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+.results-grid .hc-body .hc-direccion {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--color-subtext);
+}
+.results-grid .hc-body .hc-meta {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--color-subtext);
+}
+
+/*----------------------------------------
+  Botones de acción
+----------------------------------------*/
+.results-grid .hc-actions {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.results-grid .hc-actions button {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color var(--transition-base), box-shadow var(--transition-base), opacity var(--transition-base);
+  white-space: nowrap;
+}
+.results-grid .hc-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reservar */
+.results-grid .hc-btn-reservar {
+  background-color: var(--color-reserve);
+  color: #fff;
+}
+.results-grid .hc-btn-reservar:hover:not(:disabled) {
+  background-color: #1e3f45;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* Favorito */
+.results-grid .hc-btn-favorito {
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+.results-grid .hc-btn-favorito:hover:not(:disabled) {
+  background-color: #cf5b3f;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* Carrito */
+.results-grid .hc-btn-carrito {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+.results-grid .hc-btn-carrito:hover:not(:disabled) {
+  background-color: #20776b;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/*----------------------------------------
+  Toast breve en la tarjeta (opcional)
+----------------------------------------*/
+.results-grid .hc-toast {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  z-index: 10;
+  pointer-events: none;
+  animation: fadein 0.2s ease;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}

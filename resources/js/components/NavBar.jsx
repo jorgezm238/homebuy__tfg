@@ -1,5 +1,5 @@
 // resources/js/components/NavBar.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import '../../css/navbar.css';
@@ -12,11 +12,18 @@ export default function NavBar() {
   const [user, setUser]       = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Dropdowns y carrito
+  // Estados del carrito y cuenta
+  const [carrito, setCarrito]         = useState(null);
   const [showCart, setShowCart]       = useState(false);
   const [showAccount, setShowAccount] = useState(false);
-  const [carrito, setCarrito]         = useState(null);
 
+  // Estados y refs para la búsqueda
+  const [searchTerm, setSearchTerm]       = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearch, setShowSearch]       = useState(false);
+  const searchRef = useRef();
+
+  // Refs para detectar clicks fuera
   const cartRef    = useRef();
   const accountRef = useRef();
 
@@ -51,7 +58,22 @@ export default function NavBar() {
     }
   }, [showCart, token]);
 
-  // 4) Cerrar dropdowns al clickar fuera
+  // 4) Fetch de búsqueda
+  const fetchSearch = useCallback((q) => {
+    if (!q) {
+      setSearchResults([]);
+      return;
+    }
+    api.get('/casas', { params: { q } })
+      .then(({ data }) => setSearchResults(data.casas || []))
+      .catch(() => setSearchResults([]));
+  }, []);
+
+  useEffect(() => {
+    fetchSearch(searchTerm);
+  }, [searchTerm, fetchSearch]);
+
+  // 5) Cerrar dropdowns (carrito, cuenta, búsqueda) al clickar fuera
   useEffect(() => {
     const handler = e => {
       if (cartRef.current && !cartRef.current.contains(e.target)) {
@@ -59,6 +81,9 @@ export default function NavBar() {
       }
       if (accountRef.current && !accountRef.current.contains(e.target)) {
         setShowAccount(false);
+      }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSearch(false);
       }
     };
     document.addEventListener('click', handler);
@@ -85,16 +110,51 @@ export default function NavBar() {
     }
   };
 
+  // Enviar búsqueda
+  const handleSearchSubmit = e => {
+    e.preventDefault();
+    navigate(`/busqueda?q=${encodeURIComponent(searchTerm)}`);
+    setShowSearch(false);
+  };
+
   const totalItems = carrito?.items?.reduce((sum, i) => sum + i.cantidad, 0) || 0;
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        {/* Logo */}
         <Link to="/" className="navbar-logo">HomeBuy</Link>
+
+        {/* Barra de búsqueda */}
+        <div className="navbar-search" ref={searchRef}>
+          <form onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              placeholder="Busca tu vivienda"
+              value={searchTerm}
+              onChange={e => {
+                setSearchTerm(e.target.value);
+                setShowSearch(true);
+              }}
+            />
+          </form>
+          {showSearch && searchResults.length > 0 && (
+            <ul className="search-dropdown">
+              {searchResults.map(casa => (
+                <li key={casa.id}>
+                  <Link to={`/casas/${casa.id}`}>
+                    {casa.titulo}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Enlaces de navegación */}
         <ul className="navbar-links">
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/contacto">Contacto</Link></li>
-
           {token && isAdmin && (
             <li><Link to="/gestion-stock">Gestión de stock</Link></li>
           )}

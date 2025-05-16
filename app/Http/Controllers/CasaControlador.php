@@ -14,25 +14,39 @@ class CasaControlador extends Controller
 {
     /**
      * GET /api/casas
+     * Ahora acepta q para filtrar por titulo o descripcion
      */
-    public function index()
+    public function index(Request $request)
     {
-        $casas = Casa::with('images')
-            ->get()
-            ->map(function($c) {
-                return [
-                    'id'          => $c->id,
-                    'titulo'      => $c->titulo,
-                    'descripcion' => $c->descripcion,
-                    'precio'      => $c->precio,
-                    'direccion'   => $c->direccion,
-                    'estado'      => $c->estado,
-                    'imagen'      => asset("storage/images/{$c->imagen}"),
-                    'images'      => $c->images->map(fn($img) =>
-                        asset("storage/images/{$img->ruta}")
-                    ),
-                ];
+        // 1) Obtenemos el término de búsqueda
+        $q = $request->query('q');
+
+        // 2) Montamos la query base (con imágenes)
+        $query = Casa::with('images');
+
+        // 3) Si hay q, filtramos
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('titulo', 'like', "%{$q}%")
+                    ->orWhere('descripcion', 'like', "%{$q}%");
             });
+        }
+
+        // 4) Ejecutamos y mapeamos
+        $casas = $query->get()->map(function($c) {
+            return [
+                'id'          => $c->id,
+                'titulo'      => $c->titulo,
+                'descripcion' => $c->descripcion,
+                'precio'      => $c->precio,
+                'direccion'   => $c->direccion,
+                'estado'      => $c->estado,
+                'imagen'      => asset("storage/images/{$c->imagen}"),
+                'images'      => $c->images->map(fn($img) =>
+                    asset("storage/images/{$img->ruta}")
+                ),
+            ];
+        });
 
         return response()->json($casas, 200);
     }
