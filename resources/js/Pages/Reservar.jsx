@@ -37,7 +37,7 @@ export default function Reservar() {
 
   return (
     <div className="reservar-page">
-      <h2>Reservar Casa #{id}</h2>
+      <h2>Reservar vivienda #{id}</h2>
 
       {success && <div className="reservar-success">{success}</div>}
       {error   && <div className="reservar-error">{error}</div>}

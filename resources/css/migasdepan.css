@@ -1,0 +1,80 @@
+/* resources/css/migasdepan.css */
+
+/* Tema de colores */
+:root {
+  --breadcrumb-bg:         #ffffff;
+  --breadcrumb-text:       #4a4a4a;
+  --breadcrumb-link:       #2a9d8f;
+  --breadcrumb-link-hover: #20776b;
+  --breadcrumb-separator:  #cccccc;
+  --breadcrumb-radius:     6px;
+  --breadcrumb-padding:    0.75rem 1rem;
+  --breadcrumb-font:       'Inter', sans-serif;
+}
+
+/* Contenedor principal */
+.migasdepan {
+  background: var(--breadcrumb-bg);
+  padding: var(--breadcrumb-padding);
+  border-radius: var(--breadcrumb-radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  font-family: var(--breadcrumb-font);
+}
+
+/* Lista horizontal */
+.migasdepan-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+/* Cada elemento */
+.migasdepan-item {
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--breadcrumb-text);
+  white-space: nowrap;
+}
+
+/* Separador “›” */
+.migasdepan-item + .migasdepan-item::before {
+  content: '›';
+  margin: 0 0.5rem;
+  color: var(--breadcrumb-separator);
+  font-size: 0.8rem;
+}
+
+/* Enlaces */
+.migasdepan-item a {
+  color: var(--breadcrumb-link);
+  text-decoration: none;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.migasdepan-item a:hover {
+  color: var(--breadcrumb-link-hover);
+  text-decoration: underline;
+}
+
+/* Texto de último nivel */
+.migasdepan-item span {
+  color: var(--breadcrumb-text);
+}
+
+/* Responsive: ajusta tamaño y padding en pantallas pequeñas */
+@media (max-width: 600px) {
+  .migasdepan {
+    padding: 0.5rem 0.75rem;
+  }
+  .migasdepan-item {
+    font-size: 0.8rem;
+  }
+  .migasdepan-item + .migasdepan-item::before {
+    margin: 0 0.3rem;
+  }
+}
