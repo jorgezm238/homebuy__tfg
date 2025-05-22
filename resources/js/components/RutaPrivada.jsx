@@ -8,7 +8,7 @@ export default function RutaPrivada() {
 
   if (!token) {
     // guardamos la ruta a la que intentaba entrar
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate to="/register" replace state={{ from: location }} />;
   }
   return <Outlet />;
 }

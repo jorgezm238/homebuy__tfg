@@ -30,7 +30,7 @@ export default function HouseCard({ house, onUpdate }) {
   const handleReservar = e => {
     e.stopPropagation();
     if (!token) {
-      navigate('/login');
+      navigate('/register');
     } else {
       navigate(`/reservar/${house.id}`);
     }
@@ -40,7 +40,7 @@ export default function HouseCard({ house, onUpdate }) {
   const handleFavorito = async e => {
     e.stopPropagation();
     if (!token) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
     if (isFavorito) return;
@@ -62,7 +62,7 @@ export default function HouseCard({ house, onUpdate }) {
   const handleAddToCart = async e => {
     e.stopPropagation();
     if (!token) {
-      navigate('/login');
+      navigate('/register');
       return;
     }
     if (inCart) return;
