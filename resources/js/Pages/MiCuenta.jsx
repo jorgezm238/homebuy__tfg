@@ -83,6 +83,7 @@ export default function MiCuenta() {
           <button onClick={async () => {
             await api.post('/logout');
             navigate('/login');
+            localStorage.removeItem('token');
           }}>Cerrar sesión</button>
         </div>
       </section>
