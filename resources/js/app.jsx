@@ -35,6 +35,7 @@ import GestionStock     from './Pages/GestionStock';
 import Reservar         from './Pages/Reservar';
 import Checkout         from './Pages/Checkout';
 import SearchResults    from './components/SearchResults';
+import RutaAdmin        from './components/RutaAdmin';
 
 function AppContent() {
   const location = useLocation();
@@ -66,11 +67,17 @@ function AppContent() {
             <Route path="/editar-perfil"     element={<EditarPerfil />} />
             <Route path="/cambiar-password"  element={<CambiarPassword />} />
             <Route path="/carrito-detalle"   element={<Carrito />} />
-            <Route path="/gestion-stock"     element={<GestionStock />} />
             <Route path="/reservar/:id"      element={<Reservar />} />
             <Route path="/checkout"          element={<Checkout />} />
             <Route path="/busqueda"          element={<SearchResults />} />
+          
+
+         {/* Rutas de admin */}
+          <Route element={<RutaAdmin />}>
+            <Route path="/gestion-stock" element={<GestionStock />} />
+            </Route>
           </Route>
+          
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
