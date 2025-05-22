@@ -23,12 +23,10 @@
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;
 }
-
 .mc-card.perfil h2 {
   margin: 0 0 1rem;
   color: #1a1a1a;
 }
-
 .mc-field {
   margin: 0.5rem 0;
   font-size: 0.95rem;
@@ -37,7 +35,6 @@
   font-weight: 600;
   color: #555;
 }
-
 .mc-actions {
   margin-top: 1.5rem;
 }
@@ -95,6 +92,13 @@
   padding: 1rem 1.5rem;
 }
 
+/* Wrapper relativo para posicionar toast */
+.favorites-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
 .list-section h3 {
   margin-top: 0;
   margin-bottom: 0.75rem;
@@ -126,18 +130,71 @@
   color: #333;
 }
 
-.list-section button {
-  background: #2d8cf0;
+/* Botón “Ver” */
+.btn-ver-fav {
+  background: #2a9d8f;
   color: #fff;
   border: none;
   border-radius: 4px;
   padding: 0.3rem 0.8rem;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
-.list-section button:hover {
-  background: #1c6fb8;
+.btn-ver-fav:hover {
+  background: #20776b;
+}
+
+/* Botón “Eliminar” */
+.btn-borrar-fav {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.btn-borrar-fav:hover {
+  background: #c0392b;
+  transform: translateY(-1px);
+}
+
+/* Alineación de acciones */
+.fav-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+/* ===== TOAST FUERA DEL CUADRO ===== */
+.fav-toast-outside {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 1rem;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10;
+  animation: fadeInToast 0.3s ease-out;
+}
+
+@keyframes fadeInToast {
+  from {
+    opacity: 0;
+    transform: translateY(-60%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
 }
 
 /* Responsive */
@@ -147,5 +204,15 @@
   }
   .mc-actions button {
     margin-bottom: 0.5rem;
+  }
+  .favorites-wrapper {
+    display: block;
+  }
+  .fav-toast-outside {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    left: auto;
+    transform: none;
   }
 }

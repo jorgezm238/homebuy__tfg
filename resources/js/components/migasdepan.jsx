@@ -18,9 +18,12 @@ export default function MigasDePan() {
   // Partir la ruta en segmentos no vacíos
   const segmentos = pathname.split('/').filter(Boolean);
 
-  // Construir array de { to, nombre }
-  const rutas = segmentos.map((seg, idx) => {
-    const to = '/' + segmentos.slice(0, idx + 1).join('/');
+  // Filtramos los segmentos que sean enteramente numéricos
+  const segmentosLimpios = segmentos.filter(seg => !/^\d+$/.test(seg));
+
+  // Construir array de { to, nombre } solo con los segmentos “limpios”
+  const rutas = segmentosLimpios.map((seg, idx) => {
+    const to = '/' + segmentosLimpios.slice(0, idx + 1).join('/');
     const nombre =
       nameMap[seg] ||
       decodeURIComponent(seg.charAt(0).toUpperCase() + seg.slice(1));
@@ -30,19 +33,23 @@ export default function MigasDePan() {
   return (
     <nav className="migasdepan" aria-label="breadcrumb">
       <ol className="migasdepan-list">
-        {/* Siempre "Inicio" al principio */}
+        {/* Siempre “Inicio” al principio */}
         <li className="migasdepan-item">
-          {segmentos.length > 0 ? (
+          {segmentosLimpios.length > 0 ? (
             <Link to="/">Inicio</Link>
           ) : (
             <span>Inicio</span>
           )}
         </li>
 
-        {/* Resto de niveles como texto plano */}
-        {rutas.map(r => (
+        {/* Resto de niveles como texto */}
+        {rutas.map((r, i) => (
           <li key={r.to} className="migasdepan-item">
-            <span>{r.nombre}</span>
+            {i < rutas.length - 1 ? (
+              <Link to={r.to}>{r.nombre}</Link>
+            ) : (
+              <span>{r.nombre}</span>
+            )}
           </li>
         ))}
       </ol>

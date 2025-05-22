@@ -5,46 +5,60 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/micuenta.css';
 
 export default function MiCuenta() {
-  const [user, setUser]               = useState(null);
-  const [stats, setStats]             = useState({ reservas: 0, compras: 0, favoritos: 0 });
-  const [ultimasReservas, setUltimasReservas] = useState([]);
-  const [ultimasCompras, setUltimasCompras]   = useState([]);
+  const [user, setUser]                         = useState(null);
+  const [stats, setStats]                       = useState({ reservas: 0, compras: 0, favoritos: 0 });
+  const [ultimasReservas, setUltimasReservas]   = useState([]);
+  const [ultimasCompras, setUltimasCompras]     = useState([]);
   const [ultimosFavoritos, setUltimosFavoritos] = useState([]);
+  const [toast, setToast]                       = useState('');
   const navigate = useNavigate();
 
+  // Auto‐ocultar toast tras 3s
   useEffect(() => {
-    // 1) Carga datos de usuario
+    if (!toast) return;
+    const t = setTimeout(() => setToast(''), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  // Carga inicial
+  useEffect(() => {
     api.get('/user')
       .then(({ data }) => setUser(data))
-      .catch(() => alert('No se pudo cargar tu perfil.'));
+      .catch(() => setToast('Error al cargar perfil'));
 
-    // 2) Reservas
     api.get('/reservas')
       .then(({ data }) => {
         const all = data.reservas || [];
         setStats(s => ({ ...s, reservas: all.length }));
         setUltimasReservas(all.slice(0, 3));
-      })
-      .catch(() => {});
+      });
 
-    // 3) Compras
     api.get('/compras')
       .then(({ data }) => {
         const all = data.compras || [];
         setStats(s => ({ ...s, compras: all.length }));
         setUltimasCompras(all.slice(0, 3));
-      })
-      .catch(() => {});
+      });
 
-    // 4) Favoritos
     api.get('/favoritos')
       .then(({ data }) => {
         const all = data.favoritos || [];
         setStats(s => ({ ...s, favoritos: all.length }));
         setUltimosFavoritos(all.slice(0, 3));
-      })
-      .catch(() => {});
+      });
   }, []);
+
+  // Eliminar favorito sin confirm
+  const handleBorrarFavorito = async favId => {
+    try {
+      await api.delete(`/favoritos/${favId}`);
+      setUltimosFavoritos(list => list.filter(f => f.id !== favId));
+      setStats(s => ({ ...s, favoritos: s.favoritos - 1 }));
+      setToast('Se ha eliminado de favoritos');
+    } catch {
+      setToast('Error al eliminar favorito');
+    }
+  };
 
   if (!user) {
     return <p className="mc-loading">Cargando datos de tu cuenta…</p>;
@@ -121,18 +135,39 @@ export default function MiCuenta() {
           ) : <p>No tienes compras recientes.</p>}
         </div>
 
-        <div className="list-section">
-          <h3>Últimos Favoritos</h3>
-          {ultimosFavoritos.length > 0 ? (
-            <ul>
-              {ultimosFavoritos.map(f => (
-                <li key={f.id}>
-                  <span>Casa {f.house_id}</span>
-                  <button onClick={() => navigate(`/propiedad/${f.house_id}`)}>Ver</button>
-                </li>
-              ))}
-            </ul>
-          ) : <p>No tienes favoritos recientes.</p>}
+        {/* FAVORITOS: toast fuera del cuadro */}
+        <div className="favorites-wrapper">
+          <div className="list-section favorites">
+            <h3>Últimos Favoritos</h3>
+            {ultimosFavoritos.length > 0 ? (
+              <ul>
+                {ultimosFavoritos.map(f => (
+                  <li key={f.id}>
+                    <span>Casa {f.house_id}</span>
+                    <div className="fav-actions">
+                      <button
+                        className="btn-ver-fav"
+                        onClick={() => navigate(`/propiedad/${f.house_id}`)}
+                      >
+                        Ver
+                      </button>
+                      <button
+                        className="btn-borrar-fav"
+                        onClick={() => handleBorrarFavorito(f.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No tienes favoritos recientes.</p>
+            )}
+          </div>
+
+          {/* Toast posicionado a la derecha, centrado */}
+          {toast && <div className="fav-toast-outside">{toast}</div>}
         </div>
       </section>
     </div>
