@@ -33,11 +33,11 @@ export default function GestionStock() {
       setCasas(cs =>
         cs.map(c => c.id === id ? { ...c, estado: nuevoEstado } : c)
       );
-      setMsg(`✅ "${titulo}" ahora está "${nuevoEstado}".`);
+      setMsg(`"${titulo}" ahora está "${nuevoEstado}".`);
       setTimeout(() => setMsg(null), 3000);
     } catch (err) {
       console.error('Error al actualizar estado:', err);
-      setMsg('❌ No se pudo cambiar el estado.');
+      setMsg('No se pudo cambiar el estado.');
       setTimeout(() => setMsg(null), 3000);
     }
   };
