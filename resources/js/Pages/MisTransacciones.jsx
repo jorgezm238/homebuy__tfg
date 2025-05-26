@@ -8,7 +8,7 @@ export default function MisTransacciones() {
   const [loadingReservas, setLoadingReservas] = useState(false);
   const [loadingCompras, setLoadingCompras]   = useState(false);
 
-  // Fetch de reservas
+  //fetch de reservas
   const fetchReservas = async () => {
     setLoadingReservas(true);
     try {
@@ -23,7 +23,7 @@ export default function MisTransacciones() {
     }
   };
 
-  // Fetch de compras
+  //fetch de compras
   const fetchCompras = async () => {
     setLoadingCompras(true);
     try {
@@ -43,7 +43,7 @@ export default function MisTransacciones() {
     fetchCompras();
   }, []);
 
-  // Eliminar reserva
+  //eliminar reserva
   const handleEliminarReserva = async id => {
     if (!window.confirm('¿Eliminar esta reserva?')) return;
     try {
@@ -56,7 +56,7 @@ export default function MisTransacciones() {
     }
   };
 
-  // Eliminar compra
+  //eliminar compra
   const handleEliminarCompra = async id => {
     if (!window.confirm('¿Eliminar esta compra?')) return;
     try {

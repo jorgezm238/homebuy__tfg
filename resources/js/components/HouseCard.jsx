@@ -1,4 +1,3 @@
-// resources/js/pages/HouseCard.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiCalendar, FiHeart, FiShoppingCart } from 'react-icons/fi';
@@ -12,21 +11,21 @@ export default function HouseCard({ house, onUpdate }) {
   const [loading, setLoading]       = useState(false);
   const [isFavorito, setIsFavorito] = useState(house.isFavorito ?? false);
   const [inCart, setInCart]         = useState(house.inCart    ?? false);
-  const [toast, setToast]           = useState('');   // mensaje breve
+  const [toast, setToast]           = useState('');  
 
-  // Auto‐ocultar el toast tras 3 segundos
+  //ocultar el toast tras 3 segundos
   useEffect(() => {
     if (!toast) return;
     const id = setTimeout(() => setToast(''), 3000);
     return () => clearTimeout(id);
   }, [toast]);
 
-  // Al hacer click en la tarjeta, vamos al detalle
+  //al hacer click en la tarjets vamos al detalle
   const handleClick = () => {
     navigate(`/propiedad/${house.id}`);
   };
 
-  // 1) Reservar → redirige al formulario o a login si no auth
+  //reservar redirige al formulario o a login si no hay token
   const handleReservar = e => {
     e.stopPropagation();
     if (!token) {
@@ -36,7 +35,7 @@ export default function HouseCard({ house, onUpdate }) {
     }
   };
 
-  // 2) Favoritos con toast y login redirect
+  //favoritos con toast y login redirect
   const handleFavorito = async e => {
     e.stopPropagation();
     if (!token) {
@@ -58,7 +57,7 @@ export default function HouseCard({ house, onUpdate }) {
     }
   };
 
-  // 3) Carrito con toast y login redirect
+  //carrito con el toast y login redirect
   const handleAddToCart = async e => {
     e.stopPropagation();
     if (!token) {
@@ -80,7 +79,7 @@ export default function HouseCard({ house, onUpdate }) {
     }
   };
 
-  // Color del estado
+  //color del estado
   const estadoColor = {
     disponible: 'green',
     reservada:  'orange',
@@ -99,6 +98,7 @@ export default function HouseCard({ house, onUpdate }) {
         <img
           src={house.imagen}
           alt={house.titulo}
+          //aqui puse un fondo negro por si no cargan las imagenes
           onError={e => e.currentTarget.src = 'https://via.placeholder.com/400x300?text=No+Image'}
         />
       </div>

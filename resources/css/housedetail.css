@@ -1,8 +1,3 @@
-/* resources/css/housedetail.css */
-
-/* ========================================
-   Contenedor principal: Slider + Detalle
-   ======================================== */
 .house-detail-slider {
   max-width: 1200px;
   margin: 2rem auto;
@@ -12,18 +7,14 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* ========================================
-   Loading placeholder
-   ======================================== */
+
 .hd-loading {
   text-align: center;
   font-size: 1.25rem;
   color: #555;
 }
 
-/* ========================================
-   Slider: contenedor
-   ======================================== */
+
 .slider-container {
   position: relative;
   width: 100%;
@@ -32,13 +23,12 @@
   overflow: hidden;
 }
 
-/* Cada imagen del slider */
 .slider-container .slide {
   display: none;
   width: 100%;
   height: 400px;
   object-fit: cover;
-  object-position: center 50%;       /* ajusta el recorte para bajar la imagen */
+  object-position: center 50%;      
   transition: opacity 0.5s ease;
 }
 
@@ -48,9 +38,6 @@
   opacity: 1;
 }
 
-/* ========================================
-   Flechas de navegación
-   ======================================== */
 .slider-container .nav {
   position: absolute;
   top: 50%;
@@ -70,9 +57,7 @@
 .slider-container .prev { left: 1rem; }
 .slider-container .next { right: 1rem; }
 
-/* ========================================
-   Puntos de paginación
-   ======================================== */
+
 .slider-container .dots {
   position: absolute;
   bottom: 1rem;
@@ -93,9 +78,6 @@
   background: #fff;
 }
 
-/* ========================================
-   Sección de información de la casa
-   ======================================== */
 .hd-info {
   display: flex;
   flex-direction: column;
@@ -126,9 +108,7 @@
   color: #555;
 }
 
-/* ========================================
-   Botones de acción
-   ======================================== */
+
 .hd-actions {
   display: flex;
   gap: 1rem;
@@ -159,9 +139,7 @@
   background-color: #cf5b3f;
 }
 
-/* ========================================
-   Wrapper para favoritos + Toast
-   ======================================== */
+
 .fav-wrapper {
   position: relative;
   display: inline-block;
@@ -187,9 +165,7 @@
   to   { opacity: 1; }
 }
 
-/* ========================================
-   Responsive adjustments
-   ======================================== */
+
 @media (max-width: 1024px) {
   .house-detail-slider {
     grid-template-columns: 80px 1fr;

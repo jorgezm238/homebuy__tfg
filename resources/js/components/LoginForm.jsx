@@ -1,4 +1,3 @@
-// resources/js/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,12 +14,9 @@ export default function LoginForm() {
     setError('');
 
     try {
-      // 1) CSRF cookie ENRUTA WEB (no api)
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
         withCredentials: true
       });
-
-      // 2) login CORRECTO en /api/login
       const res = await api.post('/login', { email, password });
 
       localStorage.setItem('token', res.data.token);

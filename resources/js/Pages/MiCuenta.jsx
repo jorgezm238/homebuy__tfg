@@ -1,4 +1,3 @@
-// resources/js/pages/MiCuenta.jsx
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
@@ -13,14 +12,14 @@ export default function MiCuenta() {
   const [toast, setToast]                       = useState('');
   const navigate = useNavigate();
 
-  // Auto‐ocultar toast tras 3s
+  //auto‐ocultar el toast tras 3 segundos
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(''), 3000);
     return () => clearTimeout(t);
   }, [toast]);
 
-  // Carga inicial
+  //carga inicial de datos
   useEffect(() => {
     api.get('/user')
       .then(({ data }) => setUser(data))
@@ -48,7 +47,7 @@ export default function MiCuenta() {
       });
   }, []);
 
-  // Eliminar favorito sin confirm
+  //eliminar favorito sin confirm
   const handleBorrarFavorito = async favId => {
     try {
       await api.delete(`/favoritos/${favId}`);
@@ -66,7 +65,6 @@ export default function MiCuenta() {
 
   return (
     <div className="mc-page">
-      {/* PERFIL */}
       <section className="mc-card perfil">
         <h2>Hola, {user.nombre}</h2>
         <div className="mc-field"><span>Email:</span> {user.email}</div>
@@ -82,13 +80,14 @@ export default function MiCuenta() {
           <button onClick={() => navigate('/cambiar-password')}>Cambiar contraseña</button>
           <button onClick={async () => {
             await api.post('/logout');
-            navigate('/login');
             localStorage.removeItem('token');
-          }}>Cerrar sesión</button>
+            navigate('/login');
+          }}>
+            Cerrar sesión
+          </button>
         </div>
       </section>
 
-      {/* ESTADÍSTICAS */}
       <section className="mc-stats">
         <div className="stat-box">
           <h3>Reservas</h3>
@@ -104,8 +103,8 @@ export default function MiCuenta() {
         </div>
       </section>
 
-      {/* ÚLTIMAS TRANSACCIONES */}
-      <section className="mc-lists">
+¡      <section className="mc-lists">
+
         <div className="list-section">
           <h3>Últimas Reservas</h3>
           {ultimasReservas.length > 0 ? (
@@ -114,7 +113,12 @@ export default function MiCuenta() {
                 <li key={r.id}>
                   <span>Casa {r.house_id}</span>
                   <span>{new Date(r.fecha_inicio).toLocaleDateString()}</span>
-                  <button onClick={() => navigate(`/propiedad/${r.house_id}`)}>Ver</button>
+                  <button
+                    className="btn-ver"
+                    onClick={() => navigate(`/propiedad/${r.house_id}`)}
+                  >
+                    Ver
+                  </button>
                 </li>
               ))}
             </ul>
@@ -129,14 +133,18 @@ export default function MiCuenta() {
                 <li key={c.id}>
                   <span>Casa {c.house_id}</span>
                   <span>{new Date(c.fecha_compra).toLocaleDateString()}</span>
-                  <button onClick={() => navigate(`/propiedad/${c.house_id}`)}>Ver</button>
+                  <button
+                    className="btn-ver"
+                    onClick={() => navigate(`/propiedad/${c.house_id}`)}
+                  >
+                    Ver
+                  </button>
                 </li>
               ))}
             </ul>
           ) : <p>No tienes compras recientes.</p>}
         </div>
 
-        {/* FAVORITOS: toast fuera del cuadro */}
         <div className="favorites-wrapper">
           <div className="list-section favorites">
             <h3>Últimos Favoritos</h3>
@@ -147,7 +155,7 @@ export default function MiCuenta() {
                     <span>Casa {f.house_id}</span>
                     <div className="fav-actions">
                       <button
-                        className="btn-ver-fav"
+                        className="btn-ver"
                         onClick={() => navigate(`/propiedad/${f.house_id}`)}
                       >
                         Ver
@@ -167,7 +175,6 @@ export default function MiCuenta() {
             )}
           </div>
 
-          {/* Toast posicionado a la derecha, centrado */}
           {toast && <div className="fav-toast-outside">{toast}</div>}
         </div>
       </section>

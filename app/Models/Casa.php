@@ -27,13 +27,13 @@ class Casa extends Model
         return $this->hasMany(CasaImagen::class, 'casa_id');
     }
 
-    // Relación con reservas (usa house_id)
+    //relación con reservas (usa house_id)
     public function reservas()
     {
         return $this->hasMany(Reserva::class, 'house_id');
     }
 
-    // Relación con compras (usa house_id)
+    //relación con compras (usa house_id)
     public function compras()
     {
         return $this->hasMany(Compra::class, 'house_id');

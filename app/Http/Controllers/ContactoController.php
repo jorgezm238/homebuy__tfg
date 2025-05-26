@@ -7,6 +7,7 @@ use App\Models\Contacto;
 
 class ContactoController extends Controller
 {
+   //basicamente si existe token de acceso, se pueden enviar dudas
     public function store(Request $r)
     {
         $r->validate([

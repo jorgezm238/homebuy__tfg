@@ -1,7 +1,5 @@
-/* resources/css/footer.css */
-
 .hb-footer {
-  background: #222; /* tono oscuro */
+  background: #222; 
   color: #ccc;
   font-family: 'Segoe UI', Tahoma, sans-serif;
 }
@@ -62,7 +60,7 @@
   color: #fff;
 }
 
-/* Redes sociales */
+
 .social-icons {
   display: flex;
   gap: 0.75rem;
@@ -85,7 +83,7 @@
   color: #fff;
 }
 
-/* Pie inferior */
+
 .hb-footer-bottom {
   text-align: center;
   padding: 1rem 0;
@@ -105,7 +103,7 @@
   color: #fff;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .hb-footer-container {
     flex-direction: column;

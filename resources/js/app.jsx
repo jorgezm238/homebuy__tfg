@@ -39,7 +39,7 @@ import RutaAdmin        from './components/RutaAdmin';
 
 function AppContent() {
   const location = useLocation();
-  const token = localStorage.getItem('token');       // ← comprobamos si hay sesión
+  const token = localStorage.getItem('token');       
   const noFooter = ['/login', '/register'];
 
   return (
@@ -47,16 +47,16 @@ function AppContent() {
       <NavBar />
 
       <main className="app-main">
-        {/* Sólo mostrar migas de pan si hay token */}
+        {/*solo mostrar migas de pan si hay token */}
         {token && <MigasDePan />}
 
         <Routes>
-          {/* Rutas públicas */}
+          {/*rutas públicas */}
           <Route path="/"         element={<Home />} />
           <Route path="/login"    element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
 
-          {/* Rutas privadas */}
+          {/*rutas privadas */}
           <Route element={<RutaPrivada />}>
             <Route path="/contacto"          element={<Contacto />} />
             <Route path="/mi-cuenta"         element={<MiCuenta />} />
@@ -72,19 +72,19 @@ function AppContent() {
             <Route path="/busqueda"          element={<SearchResults />} />
           
 
-         {/* Rutas de admin */}
+         {/*rutas de admin */}
           <Route element={<RutaAdmin />}>
             <Route path="/gestion-stock" element={<GestionStock />} />
             </Route>
           </Route>
           
 
-          {/* Fallback */}
+          {/*fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
 
-      {/* Footer condicional */}
+      {/*footer */}
       {!noFooter.includes(location.pathname) && <Footer />}
     </div>
   );
@@ -98,7 +98,7 @@ function App() {
   );
 }
 
-// Inicializamos React una sola vez
+//inicializamos React una sola vez
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<App />);

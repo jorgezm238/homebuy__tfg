@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class FavoritoController extends Controller
 {
+    //si el usuario tiene un token de acceso, puede añadir casas a favoritos
+    //y ver sus favoritos
+    //también puede eliminar casas de favoritos
     public function index(Request $request)
     {
         $userId = $request->user()->id;

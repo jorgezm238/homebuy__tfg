@@ -1,4 +1,3 @@
-// resources/js/pages/Contacto.jsx
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import api from '../services/api';

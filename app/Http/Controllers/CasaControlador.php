@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/CasaControlador.php
 
 namespace App\Http\Controllers;
 
@@ -12,19 +11,15 @@ use Illuminate\Support\Facades\Log;
 
 class CasaControlador extends Controller
 {
-    /**
-     * GET /api/casas
-     * Ahora acepta q para filtrar por titulo o descripcion
-     */
     public function index(Request $request)
     {
-        // 1) Obtenemos el término de búsqueda
+        //obtenemos el término q de búsqueda
         $q = $request->query('q');
 
-        // 2) Montamos la query base (con imágenes)
+        //montamos la query base (con imagenes)
         $query = Casa::with('images');
 
-        // 3) Si hay q, filtramos
+        //ssi hay q, filtramos
         if ($q) {
             $query->where(function($sub) use ($q) {
                 $sub->where('titulo', 'like', "%{$q}%")
@@ -32,7 +27,7 @@ class CasaControlador extends Controller
             });
         }
 
-        // 4) Ejecutamos y mapeamos
+        //se ejecuta y se mapea el resultado
         $casas = $query->get()->map(function($c) {
             return [
                 'id'          => $c->id,
@@ -51,9 +46,7 @@ class CasaControlador extends Controller
         return response()->json($casas, 200);
     }
 
-    /**
-     * GET /api/casas/{id}
-     */
+
     public function show($id)
     {
         $c = Casa::with('images')->find($id);
@@ -75,9 +68,7 @@ class CasaControlador extends Controller
         ], 200);
     }
 
-    /**
-     * PATCH /api/casas/{id}
-     */
+
     public function update(Request $request, $id)
     {
         $data = $request->validate([
@@ -92,13 +83,13 @@ class CasaControlador extends Controller
             $casa->estado = $nuevo;
             $casa->save();
 
-            // 1) Si vuelve a “disponible”, borramos reservas y compras previas
+            //si vuelve a “disponible”, se borran las reservas y las compras previas
             if ($nuevo === 'disponible') {
                 Reserva::where('house_id', $id)->delete();
                 Compra::where('house_id', $id)->delete();
             }
 
-            // 2) Si lo marcamos “vendida”, convertimos la reserva (si la hay) en compra
+            //si lo marcamos “vendida”, se convierte la reserva (si la hay) en compra
             if ($nuevo === 'vendida') {
                 $reserva = Reserva::where('house_id', $id)->first();
                 if ($reserva) {
@@ -110,7 +101,7 @@ class CasaControlador extends Controller
                     $reserva->delete();
                 }
             }
-
+            //aqui hace un commit para que se guarden los cambios que hace el admin
             DB::commit();
 
             return response()->json([

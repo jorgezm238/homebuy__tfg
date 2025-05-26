@@ -11,11 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\CarritoController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
+//RUTAS DE LA API
 
 // Registro y login públicos
 Route::post('/register', [AuthController::class, 'register']);

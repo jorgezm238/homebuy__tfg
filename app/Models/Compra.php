@@ -11,12 +11,12 @@ class Compra extends Model
 
     public $timestamps = false;
 
-    protected $table = 'compras'; // o el nombre real de tu tabla
+    protected $table = 'compras'; 
 
     protected $fillable = [
         'user_id',
         'house_id',
-        'fecha_compra', // si lo tienes
+        'fecha_compra', 
     ];
 
     public function casa()

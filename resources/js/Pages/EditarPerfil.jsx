@@ -1,4 +1,3 @@
-// resources/js/pages/EditarPerfil.jsx
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import '../../css/editar-perfil.css';
@@ -9,7 +8,7 @@ export default function EditarPerfil() {
   const [msg, setMsg]           = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Carga inicial de los valores del perfil
+  //carga inicial de los valores del perfil
   useEffect(() => {
     api.get('/user')
       .then(({ data }) => {
@@ -44,7 +43,6 @@ export default function EditarPerfil() {
     <div className="editar-perfil-page">
       <h2>Editar Perfil</h2>
 
-      {/* Mensajes inline */}
       {msg && <div className="ep-alert ep-success">{msg}</div>}
       {errorMsg && <div className="ep-alert ep-error">{errorMsg}</div>}
 

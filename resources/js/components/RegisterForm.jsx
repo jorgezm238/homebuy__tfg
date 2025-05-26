@@ -1,4 +1,3 @@
-// resources/js/components/RegisterForm.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -22,12 +21,11 @@ export default function RegisterForm() {
     }
 
     try {
-      // 1) CSRF cookie
+    
       await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
         withCredentials: true
       });
 
-      // 2) registro en /api/register
       await api.post('/register', {
         nombre,
         email,

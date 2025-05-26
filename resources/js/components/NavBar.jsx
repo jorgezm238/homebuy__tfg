@@ -1,4 +1,3 @@
-// resources/js/components/NavBar.jsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -8,26 +7,26 @@ export default function NavBar() {
   const navigate  = useNavigate();
   const token     = localStorage.getItem('token');
 
-  // Datos de usuario y rol
+  //datos de usuario y rol
   const [user, setUser]       = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Estados del carrito y cuenta
+  //estados del carrito y cuenta
   const [carrito, setCarrito]         = useState(null);
   const [showCart, setShowCart]       = useState(false);
   const [showAccount, setShowAccount] = useState(false);
 
-  // Estados y refs para la búsqueda
+  //estados y refs para la búsqueda
   const [searchTerm, setSearchTerm]       = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearch, setShowSearch]       = useState(false);
   const searchRef = useRef();
 
-  // Refs para detectar clicks fuera
+  //refs para detectar clicks fuera
   const cartRef    = useRef();
   const accountRef = useRef();
 
-  // 1) Carga datos de usuario
+  //carga datos de usuario
   useEffect(() => {
     if (!token) return;
     api.get('/user')
@@ -41,7 +40,7 @@ export default function NavBar() {
       });
   }, [token]);
 
-  // 2) Carga inicial del carrito
+  //carga inicial del carrito
   useEffect(() => {
     if (!token) return;
     api.get('/carrito')
@@ -49,7 +48,7 @@ export default function NavBar() {
       .catch(() => {});
   }, [token]);
 
-  // 3) Refrescar carrito al abrir el dropdown
+  //refrescar carrito al abrir el dropdown
   useEffect(() => {
     if (showCart && token) {
       api.get('/carrito')
@@ -58,7 +57,7 @@ export default function NavBar() {
     }
   }, [showCart, token]);
 
-  // 4) Fetch de búsqueda
+  //fetch de busqueda
   const fetchSearch = useCallback((q) => {
     if (!q) {
       setSearchResults([]);
@@ -73,7 +72,7 @@ export default function NavBar() {
     fetchSearch(searchTerm);
   }, [searchTerm, fetchSearch]);
 
-  // 5) Cerrar dropdowns (carrito, cuenta, búsqueda) al clickar fuera
+  //cerrar dropdowns al clickar fuera
   useEffect(() => {
     const handler = e => {
       if (cartRef.current && !cartRef.current.contains(e.target)) {
@@ -90,14 +89,14 @@ export default function NavBar() {
     return () => document.removeEventListener('click', handler);
   }, []);
 
-  // Logout
+  //logout
   const handleLogout = async () => {
     try { await api.post('/logout'); } catch {}
     localStorage.removeItem('token');
     navigate('/login');
   };
 
-  // Eliminar item del carrito
+  //eliminar item del carrito
   const handleRemoveItem = async id => {
     try {
       await api.delete(`/carrito/${id}`);
@@ -110,7 +109,7 @@ export default function NavBar() {
     }
   };
 
-  // Enviar búsqueda
+  //enviar búsqueda
   const handleSearchSubmit = e => {
     e.preventDefault();
     navigate(`/busqueda?q=${encodeURIComponent(searchTerm)}`);
@@ -122,10 +121,8 @@ export default function NavBar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Logo */}
         <Link to="/" className="navbar-logo">HomeBuy</Link>
 
-        {/* Barra de búsqueda */}
         <div className="navbar-search" ref={searchRef}>
           <form onSubmit={handleSearchSubmit}>
             <input
@@ -151,7 +148,6 @@ export default function NavBar() {
           )}
         </div>
 
-        {/* Enlaces de navegación */}
         <ul className="navbar-links">
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/contacto">Contacto</Link></li>
@@ -161,7 +157,6 @@ export default function NavBar() {
 
           {token ? (
             <>
-              {/* Mi Cuenta */}
               <li className="navbar-account" ref={accountRef}>
                 <button
                   className="account-label"
@@ -179,7 +174,6 @@ export default function NavBar() {
                 </ul>
               </li>
 
-              {/* Carrito */}
               <li className="navbar-cart" ref={cartRef}>
                 <button
                   className="cart-button"

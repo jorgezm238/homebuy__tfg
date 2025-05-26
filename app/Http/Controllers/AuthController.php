@@ -38,7 +38,6 @@ class AuthController extends Controller
         // Intentamos encontrar al usuario por email
         $usr = Usuario::where('email', $r->email)->first();
 
-        // Si no existe o la contraseña falla, devolvemos siempre el mismo error
         if (!$usr || !Hash::check($r->password, $usr->password)) {
             return response()->json([
                 'message' => 'Usuario o contraseña incorrectas'

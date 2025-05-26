@@ -1,4 +1,3 @@
-// resources/js/pages/CambiarPassword.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -15,13 +14,13 @@ export default function CambiarPassword() {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
-  // Autoocultar mensajes
+  //ocultar mensajes
   React.useEffect(() => {
     if (!msg && !errorMsg) return;
     const timer = setTimeout(() => {
       setMsg('');
       setErrorMsg('');
-      // tras éxito, volvemos a Mi Cuenta
+      //tras éxito, volvemos a Mi Cuenta
       if (msg) navigate('/mi-cuenta');
     }, 3000);
     return () => clearTimeout(timer);
@@ -38,10 +37,10 @@ export default function CambiarPassword() {
     setErrorMsg('');
     try {
       await api.put('/user/password', form);
-      setMsg('✅ Contraseña cambiada correctamente.');
+      setMsg('Contraseña cambiada correctamente.');
     } catch (err) {
       console.error(err);
-      setErrorMsg(err.response?.data?.message || '❌ Error al cambiar contraseña.');
+      setErrorMsg(err.response?.data?.message || 'Error al cambiar contraseña.');
     } finally {
       setLoading(false);
     }

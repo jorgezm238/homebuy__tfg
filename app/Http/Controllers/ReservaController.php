@@ -12,12 +12,13 @@ class ReservaController extends Controller
 {
     public function store(Request $request)
     {
-        // 1) Validación:
+        //validación:
         $data = $request->validate([
             'house_id' => [
                 'required',
                 'exists:casas,id',
-                // única por usuario+casa
+                //unica por usuario+casa
+                //no se puede reservar la misma casa más de una vez
                 Rule::unique('reservas')->where(fn($q) => $q->where('user_id', $request->user()->id)),
             ],
             'fianza'   => 'required|integer|min:50000',
@@ -25,7 +26,7 @@ class ReservaController extends Controller
             'house_id.unique' => 'Ya tienes una reserva para esta casa.',
         ]);
 
-        // 2) Crear la reserva
+        //crea la reserva
         $reserva = Reserva::create([
             'user_id'      => $request->user()->id,
             'house_id'     => $data['house_id'],
@@ -33,12 +34,12 @@ class ReservaController extends Controller
             'fecha_inicio' => now(),
         ]);
 
-        // 3) Marcar la casa como reservada
+        //marca la casa como reservada
         $casa = Casa::findOrFail($data['house_id']);
         $casa->estado = 'reservada';
         $casa->save();
 
-        // 4) Respuesta JSON
+        //respuesta JSON
         return response()->json([
             'message' => 'Reserva creada y casa marcada como reservada',
             'reserva' => $reserva,
@@ -54,7 +55,7 @@ class ReservaController extends Controller
         return response()->json(['reservas' => $reservas], 200);
     }
 
-    // 2) Borrar reserva y quizá liberar la casa
+    //borra reserva 
     public function destroy($id)
     {
         $reserva = Reserva::findOrFail($id);

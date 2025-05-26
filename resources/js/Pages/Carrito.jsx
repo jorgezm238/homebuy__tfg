@@ -1,4 +1,3 @@
-// resources/js/pages/Carrito.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -10,7 +9,7 @@ export default function Carrito() {
   const [toast, setToast]     = useState('');
   const navigate               = useNavigate();
 
-  // 1) Carga inicial
+  //carga inicial
   useEffect(() => {
     fetchCarrito();
   }, []);
@@ -28,7 +27,7 @@ export default function Carrito() {
     }
   };
 
-  // 2) Eliminar un ítem
+  //eliminar un ítem
   const handleRemove = async itemId => {
     if (!window.confirm('¿Eliminar este elemento del carrito?')) return;
     try {
@@ -40,7 +39,7 @@ export default function Carrito() {
     }
   };
 
-  // 3) Vaciar carrito
+  //vaciar carrito
   const handleEmpty = async () => {
     if (!carrito?.items.length) return;
     if (!window.confirm('¿Vaciar todo el carrito?')) return;
@@ -55,16 +54,16 @@ export default function Carrito() {
     }
   };
 
-  // 4) Checkout sin diálogo nativo
+  //checkout sin diálogo nativo
   const handleCheckout = () => {
-    // 4.1 muestra toast breve
+    //muestra toast
     setToast('🛒 Redirigiendo a pago…');
     setTimeout(() => {
       navigate('/checkout');
     }, 800);
   };
 
-  // auto-ocultar toast en 3s
+  //auto-ocultar toast en 3s
   useEffect(() => {
     if (!toast) return;
     const id = setTimeout(() => setToast(''), 3000);

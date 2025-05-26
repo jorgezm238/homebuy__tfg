@@ -1,4 +1,3 @@
-// resources/js/components/Footer.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../css/footer.css';
@@ -10,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="hb-footer">
       <div className="hb-footer-container">
-        {/* Columna 1 */}
+       
         <div className="footer-col">
           <h4>¿QUÉ HACEMOS?</h4>
           <ul>
@@ -20,7 +19,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Columna 2 */}
+    
         <div className="footer-col">
           <h4>SÍGUENOS EN REDES</h4>
           <div className="social-icons">
@@ -31,7 +30,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Columna 3 */}
+     
         <div className="footer-col">
           <h4>CONTACTO</h4>
           <address>

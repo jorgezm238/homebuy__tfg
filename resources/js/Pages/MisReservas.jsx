@@ -8,7 +8,7 @@ export default function MisReservas() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Carga inicial
+  //carga inicial
   useEffect(() => {
     (async () => {
       setLoading(true);

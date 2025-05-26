@@ -1,4 +1,3 @@
-// resources/js/pages/GestionStock.jsx
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import '../../css/gestion-stock.css';
@@ -8,7 +7,7 @@ export default function GestionStock() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg]         = useState(null);
 
-  // 1) Carga inicial y refresco cada 5s
+  //La carga inicial
   const fetchCasas = async () => {
     try {
       const { data } = await api.get('/casas');
@@ -26,7 +25,7 @@ export default function GestionStock() {
     return () => clearInterval(iv);
   }, []);
 
-  // 2) Al cambiar estado: PATCH
+  // Cambia el estado de una casa
   const handleChange = async (id, nuevoEstado, titulo) => {
     try {
       await api.patch(`/casas/${id}`, { estado: nuevoEstado });

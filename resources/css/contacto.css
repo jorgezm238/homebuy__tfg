@@ -1,8 +1,3 @@
-/* resources/css/contacto.css */
-
-/* ========================================
-   Variables de tema
-   ======================================== */
 :root {
   --color-primary:   #000000;
   --color-secondary: #2a9d8f;
@@ -17,9 +12,6 @@
   --transition:      0.2s ease;
 }
 
-/* ========================================
-   Reset y tipografía
-   ======================================== */
 * {
   box-sizing: border-box;
 }
@@ -31,9 +23,6 @@ body {
   color: #333;
 }
 
-/* ========================================
-   Contenedor de la página
-   ======================================== */
 .contacto-page {
   max-width: 600px;
   margin: 3rem auto;
@@ -47,9 +36,6 @@ body {
   color: var(--color-primary);
 }
 
-/* ========================================
-   Mensajes de estado
-   ======================================== */
 .contacto-error,
 .contacto-success {
   display: flex;
@@ -73,9 +59,6 @@ body {
   border: 1px solid #b7e4c7;
 }
 
-/* ========================================
-   Formulario
-   ======================================== */
 .contacto-form {
   background: #fff;
   padding: 2rem;
@@ -117,14 +100,11 @@ body {
   min-height: 120px;
 }
 
-/* Placeholder styling */
+
 .contacto-form ::placeholder {
   color: #a1a1aa;
 }
 
-/* ========================================
-   Botón de envío
-   ======================================== */
 .contacto-form button[type="submit"] {
   justify-self: end;
   padding: 0.75rem 2rem;
@@ -146,9 +126,7 @@ body {
   transform: scale(0.98);
 }
 
-/* ========================================
-   Responsive
-   ======================================== */
+
 @media (max-width: 480px) {
   .contacto-page {
     padding: 0.5rem;

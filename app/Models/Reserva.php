@@ -9,7 +9,7 @@ class Reserva extends Model
 {
     use HasFactory;
 
-    public $timestamps = false; // si solo usas fecha_inicio / fecha_fin
+    public $timestamps = false; 
 
     protected $fillable = [
         'user_id',
@@ -17,7 +17,7 @@ class Reserva extends Model
         'fianza',
         'fecha_inicio',
         'fecha_fin',
-        'estado',      // opcional si lo usas aquí también
+        'estado',     
     ];
 
     public function casa()

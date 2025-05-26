@@ -1,4 +1,3 @@
-// resources/js/pages/Checkout.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -12,7 +11,7 @@ export default function Checkout() {
   useEffect(() => {
     const doCheckout = async () => {
       try {
-        // 1) Cargo el carrito
+        //cargo el carrito
         const { data } = await api.get('/carrito');
         const carrito = data.carrito;
 
@@ -22,7 +21,7 @@ export default function Checkout() {
           return;
         }
 
-        // 2) Por cada item, registro la compra y borro el item del carrito
+        //por cada item, registro la compra y borro el item del carrito
         for (const item of carrito.items) {
           await api.post('/compras', { house_id: item.casa_id });
           await api.delete(`/carrito/${item.id}`);

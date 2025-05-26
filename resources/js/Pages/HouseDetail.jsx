@@ -1,4 +1,3 @@
-// resources/js/Pages/HouseDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { FiHeart } from 'react-icons/fi';
@@ -18,7 +17,7 @@ export default function HouseDetail() {
   const [favLoading, setFavLoading] = useState(false);
   const [isFav, setIsFav]           = useState(false);
 
-  // Toast de favorito
+  //toast de favorito
   const [toast, setToast] = useState('');
   useEffect(() => {
     if (!toast) return;
@@ -47,18 +46,18 @@ export default function HouseDetail() {
   if (loading) return <p className="hd-loading">Cargando propiedad…</p>;
   if (error || !house) return <Navigate to="/" replace />;
 
-  // Slider controls
+  //slider controls
   const prev = () => setCurrent(i => (i - 1 + slides.length) % slides.length);
   const next = () => setCurrent(i => (i + 1) % slides.length);
   const goTo = idx => setCurrent(idx);
 
-  // Reservar → redirigir
+  //reservar → redirigir
   const handleReservar = e => {
     e.stopPropagation();
     navigate(`/reservar/${house.id}`);
   };
 
-  // Favorito con toast
+  //favorito con toast
   const handleFavorito = async e => {
     e.stopPropagation();
     if (isFav) {
@@ -80,7 +79,7 @@ export default function HouseDetail() {
 
   return (
     <div className="house-detail-slider">
-      {/* Slider */}
+ 
       <div className="slider-container">
         {slides.map((url, idx) => (
           <img
@@ -107,7 +106,6 @@ export default function HouseDetail() {
         )}
       </div>
 
-      {/* Detalle */}
       <div className="hd-info">
         <h2>{house.titulo}</h2>
         <p><strong>Precio:</strong> {Number(house.precio).toLocaleString()} €</p>
@@ -129,7 +127,6 @@ export default function HouseDetail() {
             Reservar
           </button>
 
-          {/* Wrapper para posicionar el toast */}
           <div className="fav-wrapper">
             <button
               className="hd-btn hd-btn-secondary"

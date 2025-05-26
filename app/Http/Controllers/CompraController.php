@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class CompraController extends Controller
 {
-    /**
-     * Devuelve todas las compras del usuario autenticado.
-     */
+    //devuelve las compras del usuario autenticado
     public function index(Request $request)
     {
         $userId = $request->user()->id;
@@ -24,23 +22,19 @@ class CompraController extends Controller
         ], 200);
     }
 
-    /**
-     * Crea una nueva compra y marca la casa como 'vendida'.
-     */
+    //crea una nueva compra y marca la casa como vendida
     public function store(Request $request)
     {
         $data = $request->validate([
             'house_id' => 'required|exists:casas,id',
         ]);
 
-        // 1) Crear la compra
         $compra = Compra::create([
             'user_id'      => $request->user()->id,
             'house_id'     => $data['house_id'],
             'fecha_compra' => now(),
         ]);
 
-        // 2) Marcar la casa como vendida
         Casa::where('id', $data['house_id'])
             ->update(['estado' => 'vendida']);
 
@@ -50,10 +44,7 @@ class CompraController extends Controller
         ], 201);
     }
 
-    /**
-     * Elimina una compra y, si ya no hay reservas/compras,
-     * pone la casa en 'disponible'.
-     */
+    //elimina una compra y actualiza el estado de la casa
     public function destroy($id)
     {
         $compra = Compra::findOrFail($id);

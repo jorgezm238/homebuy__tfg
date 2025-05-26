@@ -1,4 +1,3 @@
-// resources/js/components/AdminRoute.jsx
 import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import api from '../services/api';
@@ -6,6 +5,8 @@ import api from '../services/api';
 export default function RutaAdmin() {
   const [loading, setLoading]   = useState(true);
   const [isAdmin, setIsAdmin]   = useState(false);
+
+  //comprobar si el usuario es admin al cargar el componente
 
   useEffect(() => {
     api.get('/user')
@@ -15,7 +16,6 @@ export default function RutaAdmin() {
   }, []);
 
   if (loading) {
-    // Aquí podrías devolver un spinner o null
     return null;
   }
 

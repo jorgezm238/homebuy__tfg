@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams }         from 'react-router-dom';
 import api                         from '../services/api';
-import '../../css/search.css';      // grid + house-card.css
+import '../../css/search.css';      
 import HouseCard                   from './HouseCard';
 
 export default function SearchResults() {
@@ -11,21 +11,20 @@ export default function SearchResults() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Carga resultados
+  //carga resultados
   useEffect(() => {
     setLoading(true);
     api.get('/casas', { params: { q } })
       .then(({ data }) => {
-        // si tu API devuelve { casas: [...] }:
+        //si tu API devuelve :
         setResults(data.casas || data);
       })
       .catch(() => setResults([]))
       .finally(() => setLoading(false));
   }, [q]);
 
-  // Forzar recarga del carrito / favoritos tras acciones
+  //forzar recarga del carrito / favoritos tras acciones
   const handleUpdate = () => {
-    // por ejemplo, refrescar resultados para que llegue isFavorito/inCart actualizados
     api.get('/casas', { params: { q } })
       .then(({ data }) => setResults(data.casas || data))
       .catch(() => {});

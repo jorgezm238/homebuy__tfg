@@ -1,6 +1,3 @@
-/* resources/css/migasdepan.css */
-
-/* Tema de colores */
 :root {
   --breadcrumb-bg:         #ffffff;
   --breadcrumb-text:       #4a4a4a;
@@ -12,7 +9,6 @@
   --breadcrumb-font:       'Inter', sans-serif;
 }
 
-/* Contenedor principal */
 .migasdepan {
   background: var(--breadcrumb-bg);
   padding: var(--breadcrumb-padding);
@@ -22,7 +18,6 @@
   font-family: var(--breadcrumb-font);
 }
 
-/* Lista horizontal */
 .migasdepan-list {
   list-style: none;
   display: flex;
@@ -33,7 +28,6 @@
   flex-wrap: wrap;
 }
 
-/* Cada elemento */
 .migasdepan-item {
   position: relative;
   font-size: 0.9rem;
@@ -41,7 +35,6 @@
   white-space: nowrap;
 }
 
-/* Separador “›” */
 .migasdepan-item + .migasdepan-item::before {
   content: '›';
   margin: 0 0.5rem;
@@ -49,7 +42,6 @@
   font-size: 0.8rem;
 }
 
-/* Enlaces */
 .migasdepan-item a {
   color: var(--breadcrumb-link);
   text-decoration: none;
@@ -61,12 +53,10 @@
   text-decoration: underline;
 }
 
-/* Texto de último nivel */
 .migasdepan-item span {
   color: var(--breadcrumb-text);
 }
 
-/* Responsive: ajusta tamaño y padding en pantallas pequeñas */
 @media (max-width: 600px) {
   .migasdepan {
     padding: 0.5rem 0.75rem;

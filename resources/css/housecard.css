@@ -1,8 +1,3 @@
-/* resources/css/housecard.css */
-
-/*----------------------------------------
-  Variables de tema
-----------------------------------------*/
 :root {
   --card-bg:          #ffffff;
   --card-radius:      8px;
@@ -17,9 +12,6 @@
   --transition-base:  0.2s ease;
 }
 
-/*----------------------------------------
-  Contenedor de la tarjeta
-----------------------------------------*/
 .house-card {
   position: relative;
   background: var(--card-bg);
@@ -37,13 +29,10 @@
   box-shadow: 0 8px 24px var(--shadow-strong);
 }
 
-/*----------------------------------------
-  Sección de imagen (16:9)
-----------------------------------------*/
 .hc-image-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%; 
 }
 .hc-image-wrapper img {
   position: absolute;
@@ -52,9 +41,7 @@
   object-fit: cover;
 }
 
-/*----------------------------------------
-  Cuerpo de la tarjeta
-----------------------------------------*/
+
 .hc-body {
   padding: 1.25rem;
   display: flex;
@@ -84,9 +71,7 @@
   color: var(--color-subtext);
 }
 
-/*----------------------------------------
-  Botones de acción
-----------------------------------------*/
+
 .hc-actions {
   margin-top: auto;
   display: flex;
@@ -113,7 +98,6 @@
   cursor: not-allowed;
 }
 
-/* Reservar */
 .hc-btn-reservar {
   background-color: var(--color-reserve);
   color: #fff;
@@ -123,7 +107,6 @@
   box-shadow: 0 2px 8px var(--shadow-light);
 }
 
-/* Favorito */
 .hc-btn-favorito {
   background-color: var(--color-secondary);
   color: #fff;
@@ -133,7 +116,6 @@
   box-shadow: 0 2px 8px var(--shadow-light);
 }
 
-/* Carrito */
 .hc-btn-carrito {
   background-color: var(--color-accent);
   color: #fff;
@@ -143,9 +125,7 @@
   box-shadow: 0 2px 8px var(--shadow-light);
 }
 
-/*----------------------------------------
-  Toast breve en la tarjeta
-----------------------------------------*/
+
 .hc-toast {
   position: absolute;
   top: 1rem;

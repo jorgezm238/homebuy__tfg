@@ -1,4 +1,3 @@
-// resources/js/Pages/Reservar.jsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -25,7 +24,7 @@ export default function Reservar() {
     try {
       await api.post('/reservas', { house_id: id, fianza });
       setSuccess('✅ ¡Reserva registrada correctamente!');
-      // opcional: redirigir tras 2s
+      //opcional: redirigir tras 2s
       setTimeout(() => navigate('/mis-reservas'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Error al reservar.');
@@ -57,7 +56,7 @@ export default function Reservar() {
           {loading
             ? 'Reservando…'
             : success
-              ? '✔️ Reserva completa'
+              ? '✅ Reserva completa'
               : 'Confirmar Reserva'}
         </button>
       </form>
