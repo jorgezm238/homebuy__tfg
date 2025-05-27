@@ -25,7 +25,7 @@ export default function Reservar() {
       await api.post('/reservas', { house_id: id, fianza });
       setSuccess('✅ ¡Reserva registrada correctamente!');
       //opcional: redirigir tras 2s
-      setTimeout(() => navigate('/mis-reservas'), 2000);
+      setTimeout(() => navigate('/mis-reservas'), 1000);
     } catch (err) {
       setError(err.response?.data?.message || 'Error al reservar.');
       setSuccess('');

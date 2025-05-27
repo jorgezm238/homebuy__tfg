@@ -1,15 +1,13 @@
+// resources/js/components/Footer.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../css/footer.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-
-
 export default function Footer() {
   return (
     <footer className="hb-footer">
       <div className="hb-footer-container">
-       
         <div className="footer-col">
           <h4>¿QUÉ HACEMOS?</h4>
           <ul>
@@ -19,23 +17,49 @@ export default function Footer() {
           </ul>
         </div>
 
-    
         <div className="footer-col">
           <h4>SÍGUENOS EN REDES</h4>
           <div className="social-icons">
-            <a href="#" aria-label="Twitter"><i className="fab fa-twitter" /></a>
-            <a href="#" aria-label="Instagram"><i className="fab fa-instagram" /></a>
-            <a href="#" aria-label="Facebook"><i className="fab fa-facebook-f" /></a>
-            <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in" /></a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+            >
+              <i className="fab fa-twitter" />
+            </a>
+            <a
+              href="https://instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i className="fab fa-instagram" />
+            </a>
+            <a
+              href="https://facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <i className="fab fa-facebook-f" />
+            </a>
+            <a
+              href="https://linkedin.com/company/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              <i className="fab fa-linkedin-in" />
+            </a>
           </div>
         </div>
 
-     
         <div className="footer-col">
           <h4>CONTACTO</h4>
           <address>
             HomeBuy S.L.<br/>
-             C. Marqués, s/n, 33401 Avilés, Asturias<br/>
+            C. Marqués, s/n, 33401 Avilés, Asturias<br/>
             Tel: +34 111 111 111<br/>
             Email: <a href="mailto:info@homebuy.com">info@homebuy.com</a>
           </address>

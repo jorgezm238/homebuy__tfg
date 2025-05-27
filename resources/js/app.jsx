@@ -1,4 +1,3 @@
-// resources/js/app.jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -9,12 +8,12 @@ import {
   useLocation
 } from 'react-router-dom';
 
-// Iconos y estilos globales
+//iconos y estilos globales
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../css/app.scss';
 import '../css/migasdepan.css';
 
-// Componentes
+//componentes
 import NavBar           from './components/NavBar';
 import Footer           from './components/Footer';
 import MigasDePan       from './components/migasdepan';
