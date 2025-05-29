@@ -35,7 +35,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Intentamos encontrar al usuario por email
+        //buscamos el usuario por email
         $usr = Usuario::where('email', $r->email)->first();
 
         if (!$usr || !Hash::check($r->password, $usr->password)) {
@@ -44,10 +44,10 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Creamos el token de acceso
+        //crea un token de acceso
         $token = $usr->createToken('token-homebuy')->plainTextToken;
 
-        // Devolvemos datos mínimos del usuario + token
+        //devolvemos el usuario y el token para el cliente
         return response()->json([
             'user'  => [
                 'id'     => $usr->id,
@@ -61,7 +61,7 @@ class AuthController extends Controller
 
     public function logout(Request $r)
     {
-        // Eliminamos el token actual
+        //se elimina el token actual del usuario
         $r->user()->currentAccessToken()->delete();
 
         return response()->json([
