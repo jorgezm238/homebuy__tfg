@@ -103,7 +103,7 @@ export default function MiCuenta() {
         </div>
       </section>
 
-¡      <section className="mc-lists">
+    <section className="mc-lists">
 
         <div className="list-section">
           <h3>Últimas Reservas</h3>
