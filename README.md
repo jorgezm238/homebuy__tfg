@@ -73,10 +73,6 @@ php artisan key:generate
 ```bash
 php artisan storage:link
 ```
-HAZ ESTO SOLO SI NO SE VEN LAS IMAGENES, SI SE VEN NO HAGAS NADA SOLO CON EL COMANDO DE ARRIBA SIRVE
-
- Primero haces un ctrl + shift + P y escribes "Reload Window" y le das a enter pero solo ¡¡Si no te funciona en comando!!
- Sino pones el comando y luego copias la carpeta images de /storage/app/public/images y la pegas en public/storage
 ---
 
 ## 🧪 Puesta en marcha en desarrollo
