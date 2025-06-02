@@ -52,25 +52,12 @@ cp .env.example .env
 A continuación, edita el archivo `.env` con tus datos de conexión a la base de datos:
 
 ```env
-APP_NAME=Laravel
-APP_ENV=local
-APP_KEY=base64:IEnInmuwUPjXTxut6uBLCOzn3lj4gaclxDu6kmVgmpw=
-APP_DEBUG=true
-APP_URL=http://localhost
-
-LOG_CHANNEL=stack
-LOG_DEPRECATIONS_CHANNEL=null
-LOG_LEVEL=debug
-
 DB_CONNECTION=mysql
- DB_HOST=127.0.0.1
- DB_PORT=3306
- DB_DATABASE=homebuy
- DB_USERNAME=root
- DB_PASSWORD=
-
-SANCTUM_STATEFUL_DOMAINS=localhost:5173,127.0.0.1:5173
-SESSION_DOMAIN=localhost
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homebuy
+DB_USERNAME=root
+DB_PASSWORD=
 ```
 
 ---
