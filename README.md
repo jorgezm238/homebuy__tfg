@@ -70,16 +70,13 @@ php artisan key:generate
 
 ---
 
-## 🧱 Migraciones y datos de ejemplo
-
-Ejecuta las migraciones y carga los seeders con:
-
 ```bash
-php artisan migrate:fresh --seed
+php artisan storage:link
 ```
+HAZ ESTO SOLO SI NO SE VEN LAS IMAGENES, SI SE VEN NO HAGAS NADA SOLO CON EL LINK SIRVE
 
-Esto creará las tablas necesarias y añadirá datos iniciales como viviendas y usuarios de prueba.
-
+ Primero haces un ctrl + shift + P y escribes "Reload Window" y le das a enter pero solo ¡¡Si no te funciona en comando!!
+ Sino pones el comando y luego copias la carpeta images de /storage/app/public/images y la pegas en public/storage
 ---
 
 ## 🧪 Puesta en marcha en desarrollo
@@ -103,31 +100,6 @@ npm run dev
 ## 🌐 Accede a la aplicación
 
 - API Laravel → http://localhost:8000  
-- Frontend React → http://localhost:5173
-
----
-
-## 🚀 Compilar para producción
-
-Cuando finalices el desarrollo y estés listo para desplegar, genera la versión optimizada del frontend:
-
-```bash
-npm run build
-```
-
-Esto generará la carpeta `public/build` con los archivos listos para subir al servidor.
-
----
-
-## 🛠 Tecnologías utilizadas
-
-- **Laravel 10** – Backend PHP  
-- **React 18** – Frontend SPA  
-- **MySQL** – Base de datos relacional  
-- **Vite** – Compilación del frontend  
-- **Axios** – Comunicación entre frontend y API  
-- **Bootstrap / CSS personalizado** – Estilo de la interfaz
-
 ---
 
 ## 👤 Autor
